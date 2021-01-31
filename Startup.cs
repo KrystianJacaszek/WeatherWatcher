@@ -1,8 +1,12 @@
+using API.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Net.Http.Headers;
+using WeatherWatcher.Services;
 
 namespace WeatherWatcher
 {
@@ -19,6 +23,11 @@ namespace WeatherWatcher
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpClient<IWeatherApiService, WeatherApiService>(options =>
+            {
+                options.BaseAddress = Configuration.GetValue<Uri>("OpenWeatherApiAddress");
+                options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +45,9 @@ namespace WeatherWatcher
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller}/{action=Index}/{id?}");
             });
         }
     }
