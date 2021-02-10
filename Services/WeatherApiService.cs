@@ -2,6 +2,7 @@
 using API.Models;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -14,13 +15,15 @@ namespace WeatherWatcher.Services
         private string _apiKeyPrefix = "&appid=";
         private string _currentWeatherRequest = "weather?q=";
         private string _tempCity = "london";
+        private string _lon = "50";
+        private string _lat = "50";
 
         public string GenerateAirPollutionRequestLink(double lat, double lon, DateTime startDate, DateTime endDate)
         {
             return $"air_pollution/history?lat={lat}&lon={lon}&start={DateTimeToUnixTimeStampConverter(startDate)}&end={DateTimeToUnixTimeStampConverter(endDate)}&appid={_apiKey}";
         }
 
-        public string GenerateForecastRequestLink(double lat, double lon)
+        public string GenerateForecastRequestLink(string lat, string lon)
         {
             return $"onecall?lat={lat}&lon={lon}&exclude=current,minutely,hourly&appid={_apiKey}";
         }
@@ -63,17 +66,23 @@ namespace WeatherWatcher.Services
             return deserializedResponse;
         }
 
-        public async Task<MainForecastJson> GetDailyForecastAsync(double lon, double lat)
+        public async Task<MainForecastJson> GetDailyForecastAsync()
         {
-            var response = await _httpClient.GetAsync(GenerateForecastRequestLink(lat, lon));
+            var response = await _httpClient.GetAsync(GenerateForecastRequestLink(_lat, _lon));
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
             var deserializedResponse = JsonConvert.DeserializeObject<MainForecastJson>(responseBody);
 
-            //return deserializedResponse.DailyForecast.First().FeelLikeTemps;
             return deserializedResponse;
+        }
+
+        public async Task<DailyForecastJson> GetDailyForecastSingleAsync()
+        {
+            var x = await GetDailyForecastAsync();
+
+            return x.DailyForecast.First();
         }
 
         public async Task<WeatherAlertsJson> GetWeatherAlertsAsync(double lon, double lat)

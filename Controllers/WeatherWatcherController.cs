@@ -27,6 +27,13 @@ namespace API.Controllers
             return x;
         }
 
+        [HttpGet("complexcurrentweather")]
+        public async Task<ComplexCurrentWeather> GetComplexCurrentWeatherAsync()
+        {
+            var x = await _cacheService.GetCachedComplexCurrentWeatherAsync(1);
+            return x;
+        }
+
         [HttpGet("airpollution")]
         public async Task<AirPollutionJson> GetAirPolluition()
         {
@@ -41,9 +48,7 @@ namespace API.Controllers
         [HttpGet("forecast")]
         public async Task<MainForecastJson> GetWeatherForecast()
         {
-            var lon = 50;
-            var lat = 50;
-            var x = await _weatherApiService.GetDailyForecastAsync(lon, lat);
+            var x = await _weatherApiService.GetDailyForecastAsync();
             return x;
         }
 

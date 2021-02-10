@@ -11,6 +11,7 @@ namespace API.Services
     {
         private readonly IWeatherApiService _weatherApiService;
         private Dictionary<int, CurrentWeather> _currentWeather = new Dictionary<int, CurrentWeather>();
+        private Dictionary<int, ComplexCurrentWeather> _complexCurrentWeather = new Dictionary<int, ComplexCurrentWeather>();
 
         public CacheService(IWeatherApiService weatherApiService)
         {
@@ -19,7 +20,7 @@ namespace API.Services
 
         public async Task<CurrentWeather> GetCachedCurrentWeatherAsync(int cityId)
         {
-            if(_currentWeather.TryGetValue(cityId, out CurrentWeather currentWeather))
+            if (_currentWeather.TryGetValue(cityId, out CurrentWeather currentWeather))
             {
                 if (IsCacheNotExpired(currentWeather.TimeStamp))
                 {
@@ -33,6 +34,22 @@ namespace API.Services
             return await UpdateCurrentWeatherCache(cityId);
         }
 
+        public async Task<ComplexCurrentWeather> GetCachedComplexCurrentWeatherAsync(int cityId)
+        {
+            if (_complexCurrentWeather.TryGetValue(cityId, out ComplexCurrentWeather complexCurrentWeather))
+            {
+                if (IsCacheNotExpired(complexCurrentWeather.TimeStamp))
+                {
+                    return complexCurrentWeather;
+                }
+                else
+                {
+                    return await UpdateComplexCurrentWeatherCache(cityId);
+                }
+            }
+            return await UpdateComplexCurrentWeatherCache(cityId);
+        }
+
         public async Task<CurrentWeather> UpdateCurrentWeatherCache(int cityId)
         {
             var currentWeatherFromJson = await _weatherApiService.GetCurrentWeatherAsync();
@@ -40,6 +57,15 @@ namespace API.Services
             var currentWeatherToReplace = new CurrentWeather(currentWeatherFromJson);
 
             return ReplaceAndRetrunIfExpiredOrMissing<CurrentWeather>(_currentWeather, cityId, currentWeatherToReplace);
+        }
+
+        public async Task<ComplexCurrentWeather> UpdateComplexCurrentWeatherCache(int cityId)
+        {
+            var complexCurrentWeatherFromJson = await _weatherApiService.GetDailyForecastSingleAsync();
+
+            var complexCurrentWeatherToReplace = new ComplexCurrentWeather(complexCurrentWeatherFromJson);
+
+            return ReplaceAndRetrunIfExpiredOrMissing<ComplexCurrentWeather>(_complexCurrentWeather, cityId, complexCurrentWeatherToReplace);
         }
 
         private T ReplaceAndRetrunIfExpiredOrMissing<T>(IDictionary<int, T> cachedData, int entityId, T dataToReplace)

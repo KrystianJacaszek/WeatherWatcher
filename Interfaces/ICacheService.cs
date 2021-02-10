@@ -9,5 +9,6 @@ namespace API.Interfaces
     public interface ICacheService
     {
         Task<CurrentWeather> GetCachedCurrentWeatherAsync(int cityId);
+        Task<ComplexCurrentWeather> GetCachedComplexCurrentWeatherAsync(int cityId);
     }
 }

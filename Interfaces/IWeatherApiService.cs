@@ -10,7 +10,9 @@ namespace API.Interfaces
         Task<CurrentWeatherJson> GetCurrentWeatherAsync();
         Task<AirPollutionJson> GetAirPollutionnAsync(double lon, double lat, DateTime startDate, DateTime endDate);
 
-        Task<MainForecastJson> GetDailyForecastAsync(double lon, double lat);
+        Task<MainForecastJson> GetDailyForecastAsync();
+
+        Task<DailyForecastJson> GetDailyForecastSingleAsync();
 
         Task<WeatherAlertsJson> GetWeatherAlertsAsync(double lon, double lat);
     }
