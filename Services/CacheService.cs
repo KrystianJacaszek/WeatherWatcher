@@ -57,7 +57,5 @@ namespace API.Services
             var currentDate = DateTime.Now;
             return currentDate.Date == dateTime.Date;
         }
-
-        private 
     }
 }
