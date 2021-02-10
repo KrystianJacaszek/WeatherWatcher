@@ -1,49 +1,27 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 
 namespace API.Models
 {
     public class CurrentWeather
     {
-        [JsonProperty("coord")]
-        public Coordinates Coordinates { get; set; }
+        public double Temp { get; private set; }
+        public double FeelsTemp { get; private set; }
+        public double Min { get; private set; }
+        public double Max { get; private set; }
+        public double Pressure { get; private set; }
+        public string Icon { get; private set; }
+        public DateTime TimeStamp { get; private set; }
 
-        [JsonProperty("weather")]
-        public IList<Weather> Weather { get; set; }
-
-        [JsonProperty("base")]
-        public String Base { get; set; }
-
-        [JsonProperty("main")]
-        public MainWeatherParameters MainWeatherParameters { get; set; }
-
-        [JsonProperty("visibility")]
-        public int Visibility { get; set; }
-
-        [JsonProperty("wind")]
-        public Wind Wind { get; set; }
-
-        [JsonProperty("clouds")]
-        public Clouds Clouds { get; set; }
-
-        [JsonProperty("dt")]
-        public string DataTimeUTC { get; set; }
-
-        [JsonProperty("sys")]
-        public OtherWeatherInfo OtherWeatherInfo { get; set; }
-
-        [JsonProperty("id")]
-        public int Id { get; set; }
-
-        [JsonProperty("timezone")]
-        public int Timezone { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("cod")]
-        public int InternalCod { get; set; }
-
+        public CurrentWeather(CurrentWeatherJson currentWeatherJson)
+        {
+            Temp = currentWeatherJson.MainWeatherParameters.Temp;
+            Min = currentWeatherJson.MainWeatherParameters.TempMin;
+            Max = currentWeatherJson.MainWeatherParameters.TempMax;
+            FeelsTemp = currentWeatherJson.MainWeatherParameters.FeelsLike;
+            Pressure = currentWeatherJson.MainWeatherParameters.Pressure;
+            Icon = currentWeatherJson.Weather.FirstOrDefault()?.Icon;
+            TimeStamp = DateTime.Now.Date;
+        }
     }
 }

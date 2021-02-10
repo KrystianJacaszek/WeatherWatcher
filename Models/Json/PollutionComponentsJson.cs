@@ -2,7 +2,7 @@
 
 namespace API.Models
 {
-    public class PollutionComponents
+    public class PollutionComponentsJson
     {
         //μg/m3
         [JsonProperty("co")]

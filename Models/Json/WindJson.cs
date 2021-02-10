@@ -2,7 +2,7 @@
 
 namespace API.Models
 {
-    public class Wind
+    public class WindJson
     {
         [JsonProperty("speed")]
         public double Speed { get; set; }

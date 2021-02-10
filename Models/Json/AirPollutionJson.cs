@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace API.Models
 {
-    public class AirPollution
+    public class AirPollutionJson
     {
         [JsonProperty("coord")]
-        public Coordinates Coordinates { get; set; }
+        public CoordinatesJson Coordinates { get; set; }
 
 
         [JsonProperty("list")]
@@ -26,7 +26,7 @@ namespace API.Models
         public PollutionMain Main { get; set; }
 
         [JsonProperty("components")]
-        public PollutionComponents PollutionComponents { get; set; }
+        public PollutionComponentsJson PollutionComponents { get; set; }
 
         [JsonProperty("dt")]
         public string DateTime { get; set; }

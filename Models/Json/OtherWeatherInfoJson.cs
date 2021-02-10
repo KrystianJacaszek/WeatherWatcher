@@ -3,7 +3,7 @@ using System;
 
 namespace API.Models
 {
-    public class OtherWeatherInfo
+    public class OtherWeatherInfoJson
     {
         [JsonProperty("type")]
         public int Type { get; set; }

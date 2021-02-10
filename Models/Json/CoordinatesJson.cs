@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    public class Coordinates
+    public class CoordinatesJson
     {
         [JsonProperty("lon")]
         public string Longitude { get; set; }

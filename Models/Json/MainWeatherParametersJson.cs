@@ -2,7 +2,7 @@
 
 namespace API.Models
 {
-    public class MainWeatherParameters
+    public class MainWeatherParametersJson
     {
         [JsonProperty("temp")]
         public double Temp { get; set; }

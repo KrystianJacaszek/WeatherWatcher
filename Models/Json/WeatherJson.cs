@@ -2,7 +2,7 @@
 
 namespace API.Models
 {
-    public class Weather
+    public class WeatherJson
     {
         [JsonProperty("id")]
         public int Id { get; set; }

@@ -1,9 +1,12 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace API.Models
 {
-    public class WeatherAlerts
+    public class MainForecastJson
     {
         [JsonProperty("lat")]
         public double Lat { get; set; }
@@ -17,7 +20,10 @@ namespace API.Models
         [JsonProperty("timezone_offset")]
         public int TimezoneOffset { get; set; }
 
+        [JsonProperty("daily")]
+        public IList<DailyForecastJson> DailyForecast { get; set; }
+
         [JsonProperty("alerts")]
-        public List<WeatherAlert> WeatherAlertsList { get; set; }
+        public IList<WeatherAlertJson> WeatherAlerts { get; set; }
     }
 }

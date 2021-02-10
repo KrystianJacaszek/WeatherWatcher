@@ -2,7 +2,7 @@
 
 namespace API.Models
 {
-    public class Clouds
+    public class CloudsJson
     {
         //Cloudiness, %
         [JsonProperty("all")]

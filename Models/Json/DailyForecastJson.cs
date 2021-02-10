@@ -1,27 +1,24 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace API.Models
 {
-    public class DailyForecast
+    public class DailyForecastJson
     {
         [JsonProperty("dt")]
-        public int DateTime;
+        public int DateTime { get; set; }
 
         [JsonProperty("sunrise")]
-        public int Sunrise;
+        public int Sunrise { get; set; }
 
         [JsonProperty("sunset")]
-        public int Sunset;
+        public int Sunset { get; set; }
 
         [JsonProperty("temp")]
-        public Temps Temperatures;
+        public TempsJson Temperatures { get; set; }
 
         [JsonProperty("feels_like")]
-        public FeelsLikeTemps FeelLikeTemps;
+        public FeelsLikeTempsJson FeelLikeTemps { get; set; }
 
         [JsonProperty("pressure")]
         public int Pressure { get; set; }
@@ -39,7 +36,7 @@ namespace API.Models
         public int WindDegree { get; set; }
 
         [JsonProperty("weather")]
-        public List<DailyForecastAdditional> AdditionalInfo { get; set; }
+        public IList<DailyForecastAdditional> AdditionalInfo { get; set; }
 
         [JsonProperty("clouds")]
         public int Clouds { get; set; }

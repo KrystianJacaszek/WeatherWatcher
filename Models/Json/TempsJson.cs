@@ -2,7 +2,7 @@
 
 namespace API.Models
 {
-    public class Temps
+    public class TempsJson
     {
         [JsonProperty("day")]
         public double Day { get; set; }

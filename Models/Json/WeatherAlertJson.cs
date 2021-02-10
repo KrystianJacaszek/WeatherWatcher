@@ -2,7 +2,7 @@
 
 namespace API.Models
 {
-    public class WeatherAlert
+    public class WeatherAlertJson
     {
         [JsonProperty("sender_name")]
         public string SenderName { get; set; }
