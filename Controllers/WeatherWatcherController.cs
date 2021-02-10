@@ -2,6 +2,7 @@
 using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -11,31 +12,34 @@ namespace API.Controllers
     public class WeatherWatcherController : Controller
     {
         private readonly IWeatherApiService _weatherApiService;
+        private readonly ICacheService _cacheService;
 
-        public WeatherWatcherController(IWeatherApiService weatherApiService)
+        public WeatherWatcherController(IWeatherApiService weatherApiService, ICacheService cacheService)
         {
             _weatherApiService = weatherApiService;
+            _cacheService = cacheService;
         }
 
         [HttpGet("currentweather")]
-        public async Task<CurrentWeather> GetCurrentWeather()
+        public async Task<CurrentWeather> GetCurrentWeatherAsync()
         {
-            return await _weatherApiService.GetCurrentWeatherAsync();
+            var x = await _cacheService.GetCachedCurrentWeatherAsync(1);
+            return x;
         }
 
         [HttpGet("airpollution")]
-        public async Task<AirPollution> GetAirPolluition()
+        public async Task<AirPollutionJson> GetAirPolluition()
         {
-            var lon = 50;
-            var lat = 50;
-            int startDate = 1606223802;
-            int endDate = 1606482999;
+            var lon = 33.441792;
+            var lat = -94.037689;
+            var startDate = DateTime.Now;
+            var endDate = DateTime.Now.AddDays(1);
             var x = await _weatherApiService.GetAirPollutionnAsync(lon, lat, startDate, endDate);
             return x;
         }
 
         [HttpGet("forecast")]
-        public async Task<MainForecast> GetWeatherForecast()
+        public async Task<MainForecastJson> GetWeatherForecast()
         {
             var lon = 50;
             var lat = 50;
@@ -44,7 +48,7 @@ namespace API.Controllers
         }
 
         [HttpGet("alerts")]
-        public async Task<WeatherAlerts> GetWeatherAlertst()
+        public async Task<WeatherAlertsJson> GetWeatherAlertst()
         {
             var lon = 50;
             var lat = 50;

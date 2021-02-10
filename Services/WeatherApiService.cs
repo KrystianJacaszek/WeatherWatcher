@@ -1,6 +1,7 @@
 ﻿using API.Interfaces;
 using API.Models;
 using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -14,70 +15,75 @@ namespace WeatherWatcher.Services
         private string _currentWeatherRequest = "weather?q=";
         private string _tempCity = "london";
 
-        public string GenerateAirPollutionRequestLink(int lat, int lon, int startDate, int endDate)
+        public string GenerateAirPollutionRequestLink(double lat, double lon, DateTime startDate, DateTime endDate)
         {
-            return $"air_pollution/history?lat={lat}&lon={lon}&start={startDate}&end={endDate}&appid={_apiKey}";
+            return $"air_pollution/history?lat={lat}&lon={lon}&start={DateTimeToUnixTimeStampConverter(startDate)}&end={DateTimeToUnixTimeStampConverter(endDate)}&appid={_apiKey}";
         }
 
-        public string GenerateForecastRequestLink(int lat, int lon)
+        public string GenerateForecastRequestLink(double lat, double lon)
         {
             return $"onecall?lat={lat}&lon={lon}&exclude=current,minutely,hourly&appid={_apiKey}";
         }
 
-        public string GenerateAlertsRequestLink(int lat, int lon)
+        public string GenerateAlertsRequestLink(double lat, double lon)
         {
             return $"onecall?lat={lat}&lon={lon}&exclude=current,minutely,hourly,daily&appid={_apiKey}";
         }
-
         public WeatherApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<CurrentWeather> GetCurrentWeatherAsync()
+        public long DateTimeToUnixTimeStampConverter(DateTime dateTime) => ((DateTimeOffset)dateTime).ToUnixTimeSeconds();
+
+        public DateTime UnixTimeStampToDateTimeConverter(long unixTime) => DateTimeOffset.FromUnixTimeSeconds(unixTime).DateTime;
+
+
+        public async Task<CurrentWeatherJson> GetCurrentWeatherAsync()
         {
             var response = await _httpClient.GetAsync($"{_currentWeatherRequest}{_tempCity}{_apiKeyPrefix}{_apiKey}");
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
-            var deserializedResponse = JsonConvert.DeserializeObject<CurrentWeather>(responseBody);
+            var deserializedResponse = JsonConvert.DeserializeObject<CurrentWeatherJson>(responseBody);
 
             return deserializedResponse;
         }
 
-        public async Task<AirPollution> GetAirPollutionnAsync(int lon, int lat, int startDate, int endDate)
+        public async Task<AirPollutionJson> GetAirPollutionnAsync(double lon, double lat, DateTime startDate, DateTime endDate)
         {
             var response = await _httpClient.GetAsync(GenerateAirPollutionRequestLink(lat, lon, startDate, endDate));
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
-            var deserializedResponse = JsonConvert.DeserializeObject<AirPollution>(responseBody);
+            var deserializedResponse = JsonConvert.DeserializeObject<AirPollutionJson>(responseBody);
 
             return deserializedResponse;
         }
 
-        public async Task<MainForecast> GetDailyForecastAsync(int lon, int lat)
+        public async Task<MainForecastJson> GetDailyForecastAsync(double lon, double lat)
         {
             var response = await _httpClient.GetAsync(GenerateForecastRequestLink(lat, lon));
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
-            var deserializedResponse = JsonConvert.DeserializeObject<MainForecast>(responseBody);
+            var deserializedResponse = JsonConvert.DeserializeObject<MainForecastJson>(responseBody);
 
+            //return deserializedResponse.DailyForecast.First().FeelLikeTemps;
             return deserializedResponse;
         }
 
-        public async Task<WeatherAlerts> GetWeatherAlertsAsync(int lon, int lat)
+        public async Task<WeatherAlertsJson> GetWeatherAlertsAsync(double lon, double lat)
         {
             var response = await _httpClient.GetAsync(GenerateAlertsRequestLink(lat, lon));
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
-            var deserializedResponse = JsonConvert.DeserializeObject<WeatherAlerts>(responseBody);
+            var deserializedResponse = JsonConvert.DeserializeObject<WeatherAlertsJson>(responseBody);
 
             return deserializedResponse;
         }
