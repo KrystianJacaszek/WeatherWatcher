@@ -7,12 +7,12 @@ namespace API.Interfaces
 {
     public interface IWeatherApiService
     {
-        Task<CurrentWeatherJson> GetCurrentWeatherAsync();
-        Task<AirPollutionJson> GetAirPollutionnAsync(double lon, double lat, DateTime startDate, DateTime endDate);
+        Task<CurrentWeatherJson> GetCurrentWeatherAsync(int cityId);
+        Task<AirPollutionJson> GetAirPollutionnAsync(int cityId);
 
-        Task<MainForecastJson> GetDailyForecastAsync();
+        Task<MainForecastJson> GetDailyForecastAsync(int cityId);
 
-        Task<DailyForecastJson> GetDailyForecastSingleAsync();
+        Task<DailyForecastJson> GetDailyForecastSingleAsync(int cityId);
 
         Task<WeatherAlertsJson> GetWeatherAlertsAsync(double lon, double lat);
     }

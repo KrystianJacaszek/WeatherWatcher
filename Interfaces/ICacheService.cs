@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using API.Models.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,7 @@ namespace API.Interfaces
     {
         Task<CurrentWeather> GetCachedCurrentWeatherAsync(int cityId);
         Task<ComplexCurrentWeather> GetCachedComplexCurrentWeatherAsync(int cityId);
+        Task<IList<ComplexCurrentWeather>> GetCachedForecastAsync(int cityId);
+        Task<IList<AirPollutionComponents>> GetCachedAirPollutionWeatherAsync(int cityId);
     }
 }

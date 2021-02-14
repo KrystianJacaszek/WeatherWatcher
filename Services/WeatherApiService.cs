@@ -11,40 +11,43 @@ namespace WeatherWatcher.Services
     public class WeatherApiService : IWeatherApiService
     {
         private readonly HttpClient _httpClient;
+        private readonly IListGeneratoFromJsonFiles _listGeneratoFromJsonFiles;
         private string _apiKey = "068967c4584118a3a5856e3156211eec";
-        private string _apiKeyPrefix = "&appid=";
-        private string _currentWeatherRequest = "weather?q=";
-        private string _tempCity = "london";
-        private string _lon = "50";
-        private string _lat = "50";
+        private int _daysBackward = -1;
 
-        public string GenerateAirPollutionRequestLink(double lat, double lon, DateTime startDate, DateTime endDate)
+        public string GenerateAirPollutionRequestLink(CoordinatesJson coordinates, DateTime startDate, DateTime endDate)
         {
-            return $"air_pollution/history?lat={lat}&lon={lon}&start={DateTimeToUnixTimeStampConverter(startDate)}&end={DateTimeToUnixTimeStampConverter(endDate)}&appid={_apiKey}";
+            return $"air_pollution/history?lat={coordinates.Latitude}&lon={coordinates.Longitude}&start={DateTimeToUnixTimeStampConverter(startDate)}&end={DateTimeToUnixTimeStampConverter(endDate)}&units=metric&appid={_apiKey}";
         }
 
-        public string GenerateForecastRequestLink(string lat, string lon)
+        public string GenerateForecastRequestLink(CoordinatesJson coordinates)
         {
-            return $"onecall?lat={lat}&lon={lon}&exclude=current,minutely,hourly&appid={_apiKey}";
+            return $"onecall?lat={coordinates.Latitude}&lon={coordinates.Latitude}&exclude=current,minutely,hourly&units=metric&appid={_apiKey}";
         }
 
         public string GenerateAlertsRequestLink(double lat, double lon)
         {
-            return $"onecall?lat={lat}&lon={lon}&exclude=current,minutely,hourly,daily&appid={_apiKey}";
+            return $"onecall?lat={lat}&lon={lon}&exclude=current,minutely,hourly,daily&units=metric&appid={_apiKey}";
         }
-        public WeatherApiService(HttpClient httpClient)
+
+        public string GenerateCurrentWeatherLink(int cityId)
+        {
+            return $"weather?id={cityId}&units=metric&appid={_apiKey}";
+        }
+        public WeatherApiService(HttpClient httpClient, IListGeneratoFromJsonFiles listGeneratoFromJsonFiles)
         {
             _httpClient = httpClient;
-        }
+            _listGeneratoFromJsonFiles = listGeneratoFromJsonFiles;
+    }
 
         public long DateTimeToUnixTimeStampConverter(DateTime dateTime) => ((DateTimeOffset)dateTime).ToUnixTimeSeconds();
 
         public DateTime UnixTimeStampToDateTimeConverter(long unixTime) => DateTimeOffset.FromUnixTimeSeconds(unixTime).DateTime;
 
 
-        public async Task<CurrentWeatherJson> GetCurrentWeatherAsync()
+        public async Task<CurrentWeatherJson> GetCurrentWeatherAsync(int cityId)
         {
-            var response = await _httpClient.GetAsync($"{_currentWeatherRequest}{_tempCity}{_apiKeyPrefix}{_apiKey}");
+            var response = await _httpClient.GetAsync(GenerateCurrentWeatherLink(cityId));
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
@@ -54,9 +57,13 @@ namespace WeatherWatcher.Services
             return deserializedResponse;
         }
 
-        public async Task<AirPollutionJson> GetAirPollutionnAsync(double lon, double lat, DateTime startDate, DateTime endDate)
+        public async Task<AirPollutionJson> GetAirPollutionnAsync(int cityId)
         {
-            var response = await _httpClient.GetAsync(GenerateAirPollutionRequestLink(lat, lon, startDate, endDate));
+            var coordinates = _listGeneratoFromJsonFiles.GetCoordinatesFromCityId(cityId);
+            var startDate = DateTime.Now.AddDays(_daysBackward);
+            var endDate = DateTime.Now;
+            var x = GenerateAirPollutionRequestLink(coordinates, startDate, endDate);
+            var response = await _httpClient.GetAsync(x);
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
@@ -66,9 +73,10 @@ namespace WeatherWatcher.Services
             return deserializedResponse;
         }
 
-        public async Task<MainForecastJson> GetDailyForecastAsync()
+        public async Task<MainForecastJson> GetDailyForecastAsync(int cityId)
         {
-            var response = await _httpClient.GetAsync(GenerateForecastRequestLink(_lat, _lon));
+            var coordinates = _listGeneratoFromJsonFiles.GetCoordinatesFromCityId(cityId);
+            var response = await _httpClient.GetAsync(GenerateForecastRequestLink(coordinates));
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
@@ -78,10 +86,10 @@ namespace WeatherWatcher.Services
             return deserializedResponse;
         }
 
-        public async Task<DailyForecastJson> GetDailyForecastSingleAsync()
+        public async Task<DailyForecastJson> GetDailyForecastSingleAsync(int cityId)
         {
-            var x = await GetDailyForecastAsync();
-
+            var x = await GetDailyForecastAsync(cityId);
+            
             return x.DailyForecast.First();
         }
 

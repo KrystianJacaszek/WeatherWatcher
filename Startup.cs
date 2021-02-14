@@ -30,6 +30,7 @@ namespace WeatherWatcher
                 options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
             services.AddSingleton<ICacheService, CacheService>();
+            services.AddSingleton<IListGeneratoFromJsonFiles, ListGeneratoFromJsonFiles>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
