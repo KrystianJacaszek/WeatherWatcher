@@ -1,8 +1,6 @@
 ﻿using API.Interfaces;
 using API.Models;
-using API.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,39 +23,32 @@ namespace API.Controllers
         [HttpGet("currentweather")]
         public async Task<CurrentWeather> GetCurrentWeatherAsync()
         {
-            var x = await _cacheService.GetCachedCurrentWeatherAsync(_tempCityId);
-            return x;
+            return await _cacheService.GetCachedCurrentWeatherAsync(_tempCityId);
         }
 
         [HttpGet("complexcurrentweather")]
         public async Task<ComplexCurrentWeather> GetComplexCurrentWeatherAsync()
         {
-            var x = await _cacheService.GetCachedComplexCurrentWeatherAsync(_tempCityId);
-            return x;
+            return await _cacheService.GetCachedComplexCurrentWeatherAsync(_tempCityId);
         }
 
         [HttpGet("forecast")]
         public async Task<IList<ComplexCurrentWeather>> GetWeatherForecast()
         {
-            var x = await _cacheService.GetCachedForecastAsync(_tempCityId);
-            return x;
+            return await _cacheService.GetCachedForecastAsync(_tempCityId);
         }
 
         [HttpGet("airpollution")]
         public async Task<IList<AirPollutionComponents>> GetAirPolluition()
         {
-            var x = await _cacheService.GetCachedAirPollutionWeatherAsync(_tempCityId);
-            return x;
+            return await _cacheService.GetCachedAirPollutionWeatherAsync(_tempCityId);
         }
 
 
         [HttpGet("alerts")]
-        public async Task<WeatherAlertsJson> GetWeatherAlertst()
+        public async Task<IList<AlertDetails>> GetWeatherAlertst()
         {
-            var lon = 50;
-            var lat = 50;
-            var x = await _weatherApiService.GetWeatherAlertsAsync(lon, lat);
-            return x;
+            return await _cacheService.GetCachedAlertsAsync(_tempCityId);
         }
 
         //[HttpGet("cities")]

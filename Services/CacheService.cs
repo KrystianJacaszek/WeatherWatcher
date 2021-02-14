@@ -13,6 +13,7 @@ namespace API.Services
         private Dictionary<int, ComplexCurrentWeather> _complexCurrentWeather = new Dictionary<int, ComplexCurrentWeather>();
         private Dictionary<int, DailyForecast> _dailyForecast = new Dictionary<int, DailyForecast>();
         private Dictionary<int, AirPollution> _airPolution = new Dictionary<int, AirPollution>();
+        private Dictionary<int, Alerts> _alerts = new Dictionary<int, Alerts>();
 
         public CacheService(IWeatherApiService weatherApiService)
         {
@@ -83,6 +84,22 @@ namespace API.Services
             return (await UpdateDailyForecastCache(cityId)).ForecastList;
         }
 
+        public async Task<IList<AlertDetails>> GetCachedAlertsAsync(int cityId)
+        {
+            if (_alerts.TryGetValue(cityId, out Alerts alerts))
+            {
+                if (IsCacheNotExpired(alerts.TimeStamp))
+                {
+                    return alerts.WeatherAlertsList;
+                }
+                else
+                {
+                    return (await UpdateAlertsCache(cityId)).WeatherAlertsList;
+                }
+            }
+            return (await UpdateAlertsCache(cityId)).WeatherAlertsList;
+        }
+
 
         public async Task<CurrentWeather> UpdateCurrentWeatherCache(int cityId)
         {
@@ -118,6 +135,15 @@ namespace API.Services
             var airPollutionToReplace = new AirPollution(airPollutionFromJson);
 
             return ReplaceAndRetrunIfExpiredOrMissing<AirPollution>(_airPolution, cityId, airPollutionToReplace);
+        }
+
+        public async Task<Alerts> UpdateAlertsCache(int cityId)
+        {
+            var alertsFromJson = await _weatherApiService.GetWeatherAlertsAsync(cityId);
+
+            var alertsToReplace = new Alerts(alertsFromJson);
+
+            return ReplaceAndRetrunIfExpiredOrMissing<Alerts>(_alerts, cityId, alertsToReplace);
         }
 
         private T ReplaceAndRetrunIfExpiredOrMissing<T>(IDictionary<int, T> cachedData, int entityId, T dataToReplace)

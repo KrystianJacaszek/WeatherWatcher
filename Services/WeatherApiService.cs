@@ -25,9 +25,9 @@ namespace WeatherWatcher.Services
             return $"onecall?lat={coordinates.Latitude}&lon={coordinates.Latitude}&exclude=current,minutely,hourly&units=metric&appid={_apiKey}";
         }
 
-        public string GenerateAlertsRequestLink(double lat, double lon)
+        public string GenerateAlertsRequestLink(CoordinatesJson coordinates)
         {
-            return $"onecall?lat={lat}&lon={lon}&exclude=current,minutely,hourly,daily&units=metric&appid={_apiKey}";
+            return $"onecall?lat={coordinates.Latitude}&lon={coordinates.Longitude}&exclude=current,minutely,hourly,daily&units=metric&appid={_apiKey}";
         }
 
         public string GenerateCurrentWeatherLink(int cityId)
@@ -93,9 +93,10 @@ namespace WeatherWatcher.Services
             return x.DailyForecast.First();
         }
 
-        public async Task<WeatherAlertsJson> GetWeatherAlertsAsync(double lon, double lat)
+        public async Task<WeatherAlertsJson> GetWeatherAlertsAsync(int cityId)
         {
-            var response = await _httpClient.GetAsync(GenerateAlertsRequestLink(lat, lon));
+            var coordinates = _listGeneratoFromJsonFiles.GetCoordinatesFromCityId(cityId);
+            var response = await _httpClient.GetAsync(GenerateAlertsRequestLink(coordinates));
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;

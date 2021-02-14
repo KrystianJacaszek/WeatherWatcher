@@ -14,6 +14,6 @@ namespace API.Interfaces
 
         Task<DailyForecastJson> GetDailyForecastSingleAsync(int cityId);
 
-        Task<WeatherAlertsJson> GetWeatherAlertsAsync(double lon, double lat);
+        Task<WeatherAlertsJson> GetWeatherAlertsAsync(int cityId);
     }
 }

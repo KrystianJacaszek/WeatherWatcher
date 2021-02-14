@@ -18,6 +18,6 @@ namespace API.Models
         public int TimezoneOffset { get; set; }
 
         [JsonProperty("alerts")]
-        public List<WeatherAlertJson> WeatherAlertsList { get; set; }
+        public IList<WeatherAlertJson> WeatherAlertsList { get; set; }
     }
 }
