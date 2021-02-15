@@ -12,12 +12,14 @@ namespace API.Controllers
     {
         private readonly IWeatherApiService _weatherApiService;
         private readonly ICacheService _cacheService;
+        private readonly IListGeneratorFromJsonFiles _listGeneratoFromJsonFiles;
         private readonly int _tempCityId = 748230;
 
-        public WeatherWatcherController(IWeatherApiService weatherApiService, ICacheService cacheService)
+        public WeatherWatcherController(IWeatherApiService weatherApiService, ICacheService cacheService, IListGeneratorFromJsonFiles listGeneratoFromJsonFiles)
         {
             _weatherApiService = weatherApiService;
             _cacheService = cacheService;
+            _listGeneratoFromJsonFiles = listGeneratoFromJsonFiles;
         }
 
         [HttpGet("currentweather")]
@@ -44,22 +46,22 @@ namespace API.Controllers
             return await _cacheService.GetCachedAirPollutionWeatherAsync(_tempCityId);
         }
 
-
         [HttpGet("alerts")]
         public async Task<IList<AlertDetails>> GetWeatherAlertst()
         {
             return await _cacheService.GetCachedAlertsAsync(_tempCityId);
         }
 
-        //[HttpGet("cities")]
-        //public async Task<IList<CityEntityJson> GetCityLists()
-        //{
-        //    return _cacheService.GetCityList();
+        [HttpGet("cieties")]
+        public async Task<Dictionary<string, List<CityWithId>>> GetCitiesList()
+        {
+            return _listGeneratoFromJsonFiles.IsoNamesToListOfCitiesWithId;
+        }
 
-        //    //var lon = 50;
-        //    //var lat = 50;
-        //    //var x = await _weatherApiService.GetWeatherAlertsAsync(lon, lat);
-        //    //return x;
-        //}
+        [HttpGet("countries")]
+        public async Task<Dictionary<string, string>> GetCountriesList()
+        {
+            return _listGeneratoFromJsonFiles.IsoNamesToCountries;
+        }
     }
 }

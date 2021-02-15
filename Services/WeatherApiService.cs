@@ -11,7 +11,7 @@ namespace WeatherWatcher.Services
     public class WeatherApiService : IWeatherApiService
     {
         private readonly HttpClient _httpClient;
-        private readonly IListGeneratoFromJsonFiles _listGeneratoFromJsonFiles;
+        private readonly IListGeneratorFromJsonFiles _listGeneratoFromJsonFiles;
         private string _apiKey = "068967c4584118a3a5856e3156211eec";
         private int _daysBackward = -1;
 
@@ -34,7 +34,7 @@ namespace WeatherWatcher.Services
         {
             return $"weather?id={cityId}&units=metric&appid={_apiKey}";
         }
-        public WeatherApiService(HttpClient httpClient, IListGeneratoFromJsonFiles listGeneratoFromJsonFiles)
+        public WeatherApiService(HttpClient httpClient, IListGeneratorFromJsonFiles listGeneratoFromJsonFiles)
         {
             _httpClient = httpClient;
             _listGeneratoFromJsonFiles = listGeneratoFromJsonFiles;
