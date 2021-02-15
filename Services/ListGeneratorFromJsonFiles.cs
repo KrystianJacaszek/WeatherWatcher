@@ -94,7 +94,7 @@ namespace API.Services
                     {
                         if (!tempDictionary.ContainsKey(entity.Country))
                         {
-                            tempDictionary.Add(entity.Name, new List<CityWithId> { new CityWithId(entity.Id, entity.Name) });
+                            tempDictionary.Add(entity.Country, new List<CityWithId> { new CityWithId(entity.Id, entity.Name) });
                         }
                         else
                         {
@@ -117,8 +117,11 @@ namespace API.Services
 
                     foreach (CountriesWithIsoJson entity in countriesList)
                     {
-                        if (!tempCountriesToIso2Name.ContainsKey(entity.Iso2))
-                        tempCountriesToIso2Name.Add(entity.Iso2, entity.Name);
+                        if (entity.Iso2 != null)
+                        {
+                            if (!tempCountriesToIso2Name.ContainsKey(entity.Iso2))
+                                tempCountriesToIso2Name.Add(entity.Iso2, entity.Name);
+                        }
                     }
                 }
             return tempCountriesToIso2Name;

@@ -13,7 +13,8 @@ namespace API.Controllers
         private readonly IWeatherApiService _weatherApiService;
         private readonly ICacheService _cacheService;
         private readonly IListGeneratorFromJsonFiles _listGeneratoFromJsonFiles;
-        private readonly int _tempCityId = 748230;
+        //remove after development
+        private readonly int _tempCityId = 2643743;
 
         public WeatherWatcherController(IWeatherApiService weatherApiService, ICacheService cacheService, IListGeneratorFromJsonFiles listGeneratoFromJsonFiles)
         {
@@ -23,43 +24,43 @@ namespace API.Controllers
         }
 
         [HttpGet("currentweather")]
-        public async Task<CurrentWeather> GetCurrentWeatherAsync()
+        public async Task<CurrentWeather> GetCurrentWeatherAsync(int id)
         {
-            return await _cacheService.GetCachedCurrentWeatherAsync(_tempCityId);
+            return await _cacheService.GetCachedCurrentWeatherAsync(id);
         }
 
         [HttpGet("complexcurrentweather")]
-        public async Task<ComplexCurrentWeather> GetComplexCurrentWeatherAsync()
+        public async Task<ComplexCurrentWeather> GetComplexCurrentWeatherAsync(int id)
         {
-            return await _cacheService.GetCachedComplexCurrentWeatherAsync(_tempCityId);
+            return await _cacheService.GetCachedComplexCurrentWeatherAsync(id);
         }
 
         [HttpGet("forecast")]
-        public async Task<IList<ComplexCurrentWeather>> GetWeatherForecast()
+        public async Task<IList<ComplexCurrentWeather>> GetWeatherForecast(int id)
         {
-            return await _cacheService.GetCachedForecastAsync(_tempCityId);
+            return await _cacheService.GetCachedForecastAsync(id);
         }
 
         [HttpGet("airpollution")]
-        public async Task<IList<AirPollutionComponents>> GetAirPolluition()
+        public async Task<IList<AirPollutionComponents>> GetAirPolluition(int id)
         {
-            return await _cacheService.GetCachedAirPollutionWeatherAsync(_tempCityId);
+            return await _cacheService.GetCachedAirPollutionWeatherAsync(id);
         }
 
         [HttpGet("alerts")]
-        public async Task<IList<AlertDetails>> GetWeatherAlertst()
+        public async Task<IList<AlertDetails>> GetWeatherAlertst(int id)
         {
-            return await _cacheService.GetCachedAlertsAsync(_tempCityId);
+            return await _cacheService.GetCachedAlertsAsync(id);
         }
 
-        [HttpGet("cieties")]
-        public async Task<Dictionary<string, List<CityWithId>>> GetCitiesList()
+        [HttpGet("cities")]
+        public List<CityWithId> GetCitiesList(string IsoName)
         {
-            return _listGeneratoFromJsonFiles.IsoNamesToListOfCitiesWithId;
+            return _listGeneratoFromJsonFiles.IsoNamesToListOfCitiesWithId[IsoName];
         }
 
         [HttpGet("countries")]
-        public async Task<Dictionary<string, string>> GetCountriesList()
+        public Dictionary<string, string> GetCountriesList()
         {
             return _listGeneratoFromJsonFiles.IsoNamesToCountries;
         }

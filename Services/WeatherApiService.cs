@@ -13,7 +13,7 @@ namespace WeatherWatcher.Services
         private readonly HttpClient _httpClient;
         private readonly IListGeneratorFromJsonFiles _listGeneratoFromJsonFiles;
         private string _apiKey = "068967c4584118a3a5856e3156211eec";
-        private int _daysBackward = -1;
+        private int _daysBackward = -2;
 
         public string GenerateAirPollutionRequestLink(CoordinatesJson coordinates, DateTime startDate, DateTime endDate)
         {
