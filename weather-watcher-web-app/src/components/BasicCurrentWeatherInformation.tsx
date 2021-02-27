@@ -32,7 +32,7 @@ export const BasicCurrentWeatherInformation: React.FC<{cityId:number}> = ({cityI
             console.log(res);
             setCurrentWeather(res);
         })
-    }, [])
+    })
     return (
         <>
             {currentWeather ? (
