@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Select, Form } from 'antd';
+import { Row, Col, Select, Form, Card } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { apiService } from '../apiService';
 import FormItem from 'antd/lib/form/FormItem';
@@ -281,61 +281,25 @@ export const WeatherHomePage: React.FC = () => {
                 <h1>Podstawowe informacje pogodowwe</h1>
                 </Col>
             </Row>
-            <Row
-            gutter={[16, 36]}
-            style={{ alignItems: 'center' }}
-            justify='space-around'>
-            
-            {countryList !=undefined ? (
-                <>
-                    {console.log("countryList != undefined ")}
-                    {console.log(countryList)}
-                    <Col span={6}>
-                        <Form>
-                            <FormItem
-                                label = 'Lista Krajów'
-                            >
-                                <Select style={{ width: 200 }}
-                                        defaultValue={selectedCountry}
-                                        value={selectedCountry}
-                                        onChange={selectCountry}
-                                        showSearch
-                                        placeholder="Wyszukaj i wybierz"
-                                        optionFilterProp="children"
-                                        filterOption={(input, option) =>
-                                            option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                        }
-                                        filterSort={(optionA, optionB) =>
-                                        optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-                                        }
-                                        >
-                                    {CountriesIsoNames.map((isoName) => {
-                                        return <Option value={isoName}>{countryList[`${isoName}`]}</Option>
-                                    } )}
-                                </Select>
-                            </FormItem>
-                        </Form>
-                    </Col>
-                </>
-                ) : (
+            <Card>
+                <Row
+                gutter={[16, 36]}
+                style={{ alignItems: 'center' }}
+                justify='space-around'>
+                
+                {countryList !=undefined ? (
                     <>
-                        <Col span={6}>
-                            <WaitingForData message="Proszę czekać na załadowanie listy krajów."/>
-                        </Col>
-                    </>
-                )}
-
-                {cityList != undefined ? (
-                    <>
+                        {console.log("countryList != undefined ")}
+                        {console.log(countryList)}
                         <Col span={6}>
                             <Form>
                                 <FormItem
-                                    label = 'Lista Miast'
+                                    label = 'Lista krajów'
                                 >
                                     <Select style={{ width: 200 }}
-                                            defaultValue={selectedCity}
-                                            value={selectedCity}
-                                            onChange={selectCity}
+                                            defaultValue={selectedCountry}
+                                            value={selectedCountry}
+                                            onChange={selectCountry}
                                             showSearch
                                             placeholder="Wyszukaj i wybierz"
                                             optionFilterProp="children"
@@ -346,38 +310,78 @@ export const WeatherHomePage: React.FC = () => {
                                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                                             }
                                             >
-                                        {cityList?.map((city) => {
-                                            return <Option value={city.id}>{city.cityName}</Option>
+                                        {CountriesIsoNames.map((isoName) => {
+                                            return <Option value={isoName}>{countryList[`${isoName}`]}</Option>
                                         } )}
                                     </Select>
                                 </FormItem>
                             </Form>
                         </Col>
                     </>
-                ) : (
+                    ) : (
+                        <>
+                            <Col span={6}>
+                                <WaitingForData message="Proszę czekać na załadowanie listy krajów."/>
+                            </Col>
+                        </>
+                    )}
+
+                    {cityList != undefined ? (
+                        <>
+                            <Col span={6}>
+                                <Form>
+                                    <FormItem
+                                        label = 'Lista miast'
+                                    >
+                                        <Select style={{ width: 200 }}
+                                                defaultValue={selectedCity}
+                                                value={selectedCity}
+                                                onChange={selectCity}
+                                                showSearch
+                                                placeholder="Wyszukaj i wybierz"
+                                                optionFilterProp="children"
+                                                filterOption={(input, option) =>
+                                                    option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                                }
+                                                filterSort={(optionA, optionB) =>
+                                                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                                                }
+                                                >
+                                            {cityList?.map((city) => {
+                                                return <Option value={city.id}>{city.cityName}</Option>
+                                            } )}
+                                        </Select>
+                                    </FormItem>
+                                </Form>
+                            </Col>
+                        </>
+                    ) : (
+                        <>
+                            <Col span={6}>
+                                <WaitingForData message="Proszę czekać na załadowanie listy miast."/>
+                            </Col>
+                        </>
+                    )}
+                </Row>
+                <Row
+                    gutter={[16, 36]}
+                    style={{ alignItems: 'center' }}
+                    justify='center'>
+                {selectedCity? (
                     <>
-                        <Col span={6}>
-                            <WaitingForData message="Proszę czekać na załadowanie listy miast."/>
+                        <Col span={12}>
+                            <BasicCurrentWeatherInformation cityId={selectedCity}/>
                         </Col>
                     </>
-                )}
-            </Row>
-            <Row
-                gutter={[16, 36]}
-                style={{ alignItems: 'center' }}
-                justify='center'>
-            {selectedCity? (
-                <>
-                    <Col span={12}>
-                        <BasicCurrentWeatherInformation cityId={selectedCity}/>
-                    </Col>
-                </>
-            ) : (
-                <>
-                    <WaitingForData message="Wybierz miasto..." useSpinner={false}/>
-                </>
-            )} 
-            </Row>
+                ) : (
+                    <>
+                        <Col span={24}>
+                            <WaitingForData message="Wybierz miasto..." useSpinner={false}/>
+                        </Col>
+                    </>
+                )} 
+                </Row>
+            </Card>
         </>
     ) 
 }

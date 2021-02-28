@@ -10,7 +10,8 @@ export const WaitingForData: React.FC<{message?:string, useSpinner?:boolean}> = 
                     style={{ alignItems: 'center' }}
                     justify='center'
                 >
-                    <Col span={24}>{message}{useSpinner != undefined && useSpinner === false ? (<></>) : (<Spin />)}</Col>
+                    <Col>{message}</Col>
+                    <Col>{useSpinner != undefined && useSpinner === false ? (<></>) : (<Spin />)}</Col>
                 </Row>
             ) : (
                 <Row
@@ -18,7 +19,8 @@ export const WaitingForData: React.FC<{message?:string, useSpinner?:boolean}> = 
                     style={{ alignItems: 'center' }}
                     justify='center'
                     >
-                        <Col span={24}>Trwa wczytywanie danych... <Spin /></Col>
+                        <Col>Trwa wczytywanie danych...</Col>
+                        <Col> <Spin /></Col>
                 </Row>
             )}
         </>
