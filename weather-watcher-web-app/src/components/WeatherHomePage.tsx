@@ -6,6 +6,7 @@ import FormItem from 'antd/lib/form/FormItem';
 import { BasicCurrentWeatherInformation } from './BasicCurrentWeatherInformation';
 import { WaitingForData } from './WaitingForData';
 import { AirPollution } from './AirPollution';
+import { ComplexCurrentWeather } from './ComplexCurrentWeather';
 
 const { Option } = Select;
 
@@ -249,6 +250,7 @@ export const WeatherHomePage: React.FC = () => {
 
     let selectCountry = (key: string) =>
     {
+        localStorage.setItem("selectCountry", key);
         setSelectedCountry(key);
         getCityList(key).then((res) => {
             setCityList(res);
@@ -257,6 +259,7 @@ export const WeatherHomePage: React.FC = () => {
 
     let selectCity = (key: number) =>
     {
+        localStorage.setItem("selectCity", key.toString());
         setSelectedCity(key);
     }
 
@@ -269,6 +272,14 @@ export const WeatherHomePage: React.FC = () => {
     }
 
     useEffect(() => {
+        var selectedCountryFromLocalStorage = localStorage.getItem("selectedCountry");
+        if(selectedCountryFromLocalStorage !== undefined && selectedCountryFromLocalStorage !== null)
+            setSelectedCountry(selectedCountryFromLocalStorage);
+        
+        var selectedCityFromLocalStorage = localStorage.getItem("selectCity");
+        if(selectedCityFromLocalStorage !== undefined && selectedCityFromLocalStorage !== null)
+            setSelectedCity(parseInt(selectedCityFromLocalStorage));
+
         Promise.all([loadItems()]);
     }, []);
 
@@ -381,6 +392,15 @@ export const WeatherHomePage: React.FC = () => {
                             <Col span={24}>
                                 <h3>Zanieczyszczenie powietrza</h3>
                                 <AirPollution cityId={selectedCity}/>
+                            </Col>
+                        </Row>
+                        <Row
+                            gutter={[16, 36]}
+                            style={{ alignItems: 'center' }}
+                            justify='center'>
+                            <Col span={24}>
+                                <h3>Szczegółowe dane pogodowe</h3>
+                                <ComplexCurrentWeather cityId={selectedCity}/>
                             </Col>
                         </Row>
                     </>

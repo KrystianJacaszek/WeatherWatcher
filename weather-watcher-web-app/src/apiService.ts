@@ -19,6 +19,9 @@ const apiClient = axios.create({
       },
       getAirPollution: async(cityId: number) => {
           return apiClient.get(`airpollution?id=${cityId}`);
+      },
+      getComplexCurrentWeather: async(cityId: number) => {
+          return apiClient.get(`complexcurrentweather?id=${cityId}`);
       }
   }
 

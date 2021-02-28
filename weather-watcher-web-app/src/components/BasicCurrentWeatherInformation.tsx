@@ -54,12 +54,12 @@ export const BasicCurrentWeatherInformation: React.FC<{cityId:number}> = ({cityI
                         <Col span={12}>
                             <Row>
                                 <Col>
-                                    <StatisticsWithCelsciusDegree title="Min" value={currentWeather.min.toString()} />
+                                    <StatisticsWithCelsciusDegree title="Min" value={currentWeather.min} />
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    <StatisticsWithCelsciusDegree title={"Max"} value={currentWeather.max.toString()}/>
+                                    <StatisticsWithCelsciusDegree title="Max" value={currentWeather.max}/>
                                 </Col>
                             </Row>
                             <Row>

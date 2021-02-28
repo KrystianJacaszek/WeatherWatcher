@@ -1,6 +1,6 @@
 import React from "react"
 
-export const StatisticsWithCelsciusDegree: React.FC<{title:string,value:number}> = ({title,value}) =>
+export const StatisticsFormUnixStamp: React.FC<{title:string,value:string}> = ({title,value}) =>
 {
     let celciusDegree = <><sup>o</sup>C</>
     return(

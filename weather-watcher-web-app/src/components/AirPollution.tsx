@@ -185,7 +185,8 @@ export const AirPollution: React.FC<{cityId:number}> = ({cityId}) => {
                            
                                   title={() => { return <h3>Dane statystyczne</h3>}}
                                   columns={columns}
-                                  dataSource={airPollutionList}/>
+                                  dataSource={airPollutionList}
+                                  pagination={{ defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['5', '10', '15',]}}/>
                         </Col>
                     </Row>
                 </Card>
