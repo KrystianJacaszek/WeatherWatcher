@@ -5,6 +5,7 @@ import { apiService } from '../apiService';
 import FormItem from 'antd/lib/form/FormItem';
 import { BasicCurrentWeatherInformation } from './BasicCurrentWeatherInformation';
 import { WaitingForData } from './WaitingForData';
+import { AirPollution } from './AirPollution';
 
 const { Option } = Select;
 
@@ -289,8 +290,6 @@ export const WeatherHomePage: React.FC = () => {
                 
                 {countryList !=undefined ? (
                     <>
-                        {console.log("countryList != undefined ")}
-                        {console.log(countryList)}
                         <Col span={6}>
                             <Form>
                                 <FormItem
@@ -363,16 +362,27 @@ export const WeatherHomePage: React.FC = () => {
                         </>
                     )}
                 </Row>
-                <Row
-                    gutter={[16, 36]}
-                    style={{ alignItems: 'center' }}
-                    justify='center'>
+
                 {selectedCity? (
                     <>
-                        <Col span={12}>
-                            <h3>Aktualna pogoda</h3>
-                            <BasicCurrentWeatherInformation cityId={selectedCity}/>
-                        </Col>
+                        <Row
+                            gutter={[16, 36]}
+                            style={{ alignItems: 'center' }}
+                            justify='center'>
+                            <Col span={12}>
+                                <h3>Aktualna pogoda</h3>
+                                <BasicCurrentWeatherInformation cityId={selectedCity}/>
+                            </Col>
+                        </Row>
+                        <Row
+                            gutter={[16, 36]}
+                            style={{ alignItems: 'center' }}
+                            justify='center'>
+                            <Col span={24}>
+                                <h3>Zanieczyszczenie powietrza</h3>
+                                <AirPollution cityId={selectedCity}/>
+                            </Col>
+                        </Row>
                     </>
                 ) : (
                     <>
@@ -381,7 +391,7 @@ export const WeatherHomePage: React.FC = () => {
                         </Col>
                     </>
                 )} 
-                </Row>
+                
             </Card>
         </>
     ) 

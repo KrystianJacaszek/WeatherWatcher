@@ -17,7 +17,6 @@ export interface CurrentWeather{
 
 let getCurrentWeather = (cityId: number) => {
     return apiService.getCurrentWeather(cityId).then((res) => {
-        console.log("Test");
         return res.data as CurrentWeather;
     })
 }
@@ -29,7 +28,6 @@ export const BasicCurrentWeatherInformation: React.FC<{cityId:number}> = ({cityI
 
     useEffect(()=>{
         getCurrentWeather(cityId).then((res)=> {
-            console.log(res);
             setCurrentWeather(res);
         })
     })
