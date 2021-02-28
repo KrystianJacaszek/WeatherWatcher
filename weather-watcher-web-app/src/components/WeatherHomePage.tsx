@@ -278,7 +278,7 @@ export const WeatherHomePage: React.FC = () => {
             style={{ alignItems: 'center' }}
             justify='center'>
                 <Col span={24}>
-                <h1>Podstawowe informacje pogodowwe</h1>
+                <h1>Podstawowe informacje pogodowe</h1>
                 </Col>
             </Row>
             <Card>
@@ -370,6 +370,7 @@ export const WeatherHomePage: React.FC = () => {
                 {selectedCity? (
                     <>
                         <Col span={12}>
+                            <h3>Aktualna pogoda</h3>
                             <BasicCurrentWeatherInformation cityId={selectedCity}/>
                         </Col>
                     </>
