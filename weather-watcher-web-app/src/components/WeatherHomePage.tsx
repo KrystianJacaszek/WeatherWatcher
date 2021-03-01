@@ -7,13 +7,9 @@ import { BasicCurrentWeatherInformation } from './BasicCurrentWeatherInformation
 import { WaitingForData } from './WaitingForData';
 import { AirPollution } from './AirPollution';
 import { ComplexCurrentWeather } from './ComplexCurrentWeather';
+import { ICityWithId } from './Interfaces/ICityWithId';
 
 const { Option } = Select;
-
-export interface CityWithId {
-    id:number,
-    cityName: string
-}
 
 const CountriesIsoNames =
     [
@@ -234,7 +230,7 @@ export const WeatherHomePage: React.FC = () => {
     const[selectedCountry, setSelectedCountry] = useState<string>("PL");
     const[selectedCity, setSelectedCity] = useState<number>();
     const[countryList, setCountryList] = useState<{[key: string]: string}>();
-    const[cityList, setCityList] = useState<CityWithId[]>();
+    const[cityList, setCityList] = useState<ICityWithId[]>();
 
     let getCountryList = () => {
         return apiService.getCountryList().then((res) =>{
@@ -244,7 +240,7 @@ export const WeatherHomePage: React.FC = () => {
 
     let getCityList = (isoName: string) => {
         return apiService.getCityList(isoName).then((res) =>{
-            return res.data as CityWithId[]
+            return res.data as ICityWithId[]
         })
     }
 

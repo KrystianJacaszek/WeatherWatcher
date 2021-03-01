@@ -1,68 +1,30 @@
 import { Card, Row, Col, Statistic } from "antd";
-import { timeStamp } from "console";
 import React, { useState, useEffect } from "react";
 import { apiService } from "../apiService";
-import { ImageFromIconName } from "./ImageFromIconName";
-import { StatisticsWithCelsciusDegree } from "./StatisticsWithCelsciusDegree";
-import { StatisticsWithDegree } from "./StatisticsWithDegree";
+import { StatisticsWithCelsciusDegree } from "./Helpers/StatisticsWithCelsciusDegree";
+import { StatisticsWithDegree } from "./Helpers/StatisticsWithDegree";
+import { IComplexCurrentWeather } from "./Interfaces/IComplexCurrentWeather";
 import { WaitingForData } from "./WaitingForData";
 
-export interface Temps{
-    day:number;
-    min:number;
-    max:number;
-    night:number;
-    evening:number;
-    morning:number;
-}
-
-export interface FeelTemps{
-    day:number;
-    night:number;
-    evening:number;
-    morning:number;
-}
-
-export interface Wind{
-    speed:number;
-    degree:number;
-}
-
-export interface AdditionalInfo{
-    id:number;
-    main:string;
-    description:string;
-    icon:string;
-}
-
-export interface ComplexCurrentWeather{
-    temps:Temps;
-    feelTemps:FeelTemps;
-    wind:Wind;
-    pressure: number;
-    humidity: number;
-    additionalInfo: AdditionalInfo;
-    sunrise: number;
-    sunset:string;
-    clouds:number;
-    uvi:number;
-    timeStamp: Date;
-}
 let getComplexCurrentWeather = (cityId: number) => {
     return apiService.getComplexCurrentWeather(cityId).then((res)=>
     {
-        return res.data as ComplexCurrentWeather;
+        return res.data as IComplexCurrentWeather;
     })
 }
 
-let unixTimeStampToDateString = (timeStamp:number) => new Date(timeStamp * 1000);
+let unixTimeStampToDateString = (timeStamp:number) => 
+{
+    console.log(timeStamp);
+    return new Date(timeStamp * 1000)
+}
 
-let getDatestringFromDate = (date?: Date) => 
+let getTimeStringFromDate = (date?: Date) => 
 {
     if(date)
     {
         var newDate = new Date(date);
-        return `${newDate.toLocaleDateString()} ${getStringWithZeros(newDate.getHours())}:${getStringWithZeros(newDate.getMinutes())}`
+        return `${getStringWithZeros(newDate.getHours())}:${getStringWithZeros(newDate.getMinutes())}`
     }
     else
         return ''
@@ -71,11 +33,10 @@ let getDatestringFromDate = (date?: Date) =>
 let getStringWithZeros = (number: number) => number<10 ? `0${number}` : `${number}`;
 
 export const ComplexCurrentWeather: React.FC<{cityId:number}> = ({cityId}) => {
-    const[complexCurrentWeather, setComplexCurrentWeather] = useState<ComplexCurrentWeather>();
+    const[complexCurrentWeather, setComplexCurrentWeather] = useState<IComplexCurrentWeather>();
     
     useEffect(()=>{
         getComplexCurrentWeather(cityId).then((res)=>{
-            console.log(getDatestringFromDate(unixTimeStampToDateString(res.sunrise)));
             setComplexCurrentWeather(res);
         })
     },[])
@@ -84,14 +45,34 @@ export const ComplexCurrentWeather: React.FC<{cityId:number}> = ({cityId}) => {
         <>
             { complexCurrentWeather? (
                 <Card>
+                    <h3>Odczuwalne temperatury</h3>
+                    <Card style={{marginBottom: 20}}>
+                        <Row
+                            gutter={[0, 24]}
+                            style={{ alignItems: 'center' }}
+                            justify='center'>
+                            <Col span={12}>
+                                <StatisticsWithCelsciusDegree title="Dzień" value={complexCurrentWeather.feelTemps.day} />
+                            </Col>
+                            <Col span={12}>
+                                <StatisticsWithCelsciusDegree title="Noc" value={complexCurrentWeather.feelTemps.night} />
+                            </Col>
+                            <Col span={12}>
+                                <StatisticsWithCelsciusDegree title="Południe" value={complexCurrentWeather.feelTemps.morning} />
+                            </Col>
+                            <Col span={12}>
+                                <StatisticsWithCelsciusDegree title="Wieczór" value={complexCurrentWeather.feelTemps.evening} />
+                            </Col>
+                        </Row>
+                    </Card>
                     <Row  gutter={[16, 36]}
-                                    style={{ alignItems: 'center' }}
-                                    justify='center'>
-                        <Col>
+                          style={{ alignItems: 'space-between', marginBottom: 20}}
+                          justify='space-between'>
+                        <Col span={12}>
                             <h3>Temperatury</h3>
                             <Card>
                                 <Row
-                                    gutter={[16, 36]}
+                                    gutter={[16, 12]}
                                     style={{ alignItems: 'center' }}
                                     justify='center'>
                                     <Col span={12}>
@@ -100,22 +81,12 @@ export const ComplexCurrentWeather: React.FC<{cityId:number}> = ({cityId}) => {
                                     <Col span={12}>
                                         <StatisticsWithCelsciusDegree title="Noc" value={complexCurrentWeather.temps.night} />
                                     </Col>                            
-                                </Row>
-                                <Row
-                                    gutter={[16, 36]}
-                                    style={{ alignItems: 'center' }}
-                                    justify='center'>
                                     <Col span={12}>
                                         <StatisticsWithCelsciusDegree title="Min" value={complexCurrentWeather.temps.min} />
                                     </Col>
                                     <Col span={12}>
                                         <StatisticsWithCelsciusDegree title="Max" value={complexCurrentWeather.temps.max} />
                                     </Col>
-                                </Row>
-                                <Row
-                                    gutter={[16, 36]}
-                                    style={{ alignItems: 'center' }}
-                                    justify='center'>
                                     <Col span={12}>
                                         <StatisticsWithCelsciusDegree title="Południe" value={complexCurrentWeather.temps.morning} />
                                     </Col>
@@ -125,36 +96,37 @@ export const ComplexCurrentWeather: React.FC<{cityId:number}> = ({cityId}) => {
                                 </Row>
                             </Card>
                         </Col>
-                        <Col>
-                            <h3>Odczuwalne temperatury</h3>
+                        <Col span={12}>
+                            <h3>Szczegółowe informacje</h3>
                             <Card>
                                 <Row
-                                    gutter={[16, 36]}
+                                    gutter={[16, 12]}
                                     style={{ alignItems: 'center' }}
                                     justify='center'>
                                     <Col span={12}>
-                                        <StatisticsWithCelsciusDegree title="Dzień" value={complexCurrentWeather.feelTemps.day} />
+                                        <Statistic title="Ciśnienie" value={complexCurrentWeather.pressure+"hPa"} />
                                     </Col>
                                     <Col span={12}>
-                                        <StatisticsWithCelsciusDegree title="Noc" value={complexCurrentWeather.feelTemps.night} />
-                                    </Col>
-                                </Row>
-                                <Row
-                                    gutter={[16, 36]}
-                                    style={{ alignItems: 'center' }}
-                                    justify='center'>
-                                    <Col span={12}>
-                                        <StatisticsWithCelsciusDegree title="Południe" value={complexCurrentWeather.feelTemps.morning} />
+                                        <Statistic title="Wilgotność" value={complexCurrentWeather.humidity+"%"} />
                                     </Col>
                                     <Col span={12}>
-                                        <StatisticsWithCelsciusDegree title="Wieczór" value={complexCurrentWeather.feelTemps.evening} />
+                                        <Statistic title="Zachmurzenie" value={complexCurrentWeather.clouds+"%"}/>
+                                    </Col>
+                                    <Col span={12}>
+                                    <Statistic title="Index UV" value={complexCurrentWeather.uvi}/>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Statistic title="Zachód słońca" value={complexCurrentWeather.sunset ? getTimeStringFromDate(unixTimeStampToDateString(complexCurrentWeather.sunset)) : "Brak danych"} />
+                                    </Col>
+                                    <Col span={12}>
+                                        <Statistic title="Świt" value={complexCurrentWeather.sunrise ? getTimeStringFromDate(unixTimeStampToDateString(complexCurrentWeather.sunrise)) : "Brak danych"} />
                                     </Col>
                                 </Row>
                             </Card>
                         </Col>
                     </Row>
                     <h3>Wiatr</h3>
-                    <Card>
+                    <Card style={{marginBottom: 20}}>
                         <Row
                             gutter={[16, 36]}
                             style={{ alignItems: 'center' }}
@@ -167,18 +139,10 @@ export const ComplexCurrentWeather: React.FC<{cityId:number}> = ({cityId}) => {
                             </Col>
                         </Row>
                     </Card>
-                    <Row
-                        gutter={[16, 36]}
-                        style={{ alignItems: 'center' }}
-                        justify='center'>
-                        <Col span={12}>
-                            {/* {complexCurrentWeather.sunrise} */}
-                        </Col>
-                    </Row>
                 </Card>
             ) : (
                <>
-                    <WaitingForData/>
+                    <WaitingForData message="Trwa ładowanie szczegółowych danych pogodowych"/>
                </>
             )}
         </>

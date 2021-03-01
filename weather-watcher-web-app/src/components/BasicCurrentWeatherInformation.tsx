@@ -1,30 +1,19 @@
 import { Card, Col,  Row, Statistic } from "antd";
 import React, { useEffect, useState } from "react";
 import { apiService } from "../apiService";
-import { ImageFromIconName } from "./ImageFromIconName";
-import { StatisticsWithCelsciusDegree } from "./StatisticsWithCelsciusDegree";
+import { StatisticsWithCelsciusDegree } from "./Helpers/StatisticsWithCelsciusDegree";
+import { ImageFromIconName } from "./Helpers/ImageFromIconName";
+import { ICurrentWeather } from "./Interfaces/ICurrentWeather";
 import { WaitingForData } from "./WaitingForData";
-
-export interface CurrentWeather{
-    temp:number;
-    feelsTemp:number;
-    min:number;
-    max:number;
-    pressure:number;
-    icon:string;
-    timrStamp: Date;
-}
 
 let getCurrentWeather = (cityId: number) => {
     return apiService.getCurrentWeather(cityId).then((res) => {
-        return res.data as CurrentWeather;
+        return res.data as ICurrentWeather;
     })
 }
 
 export const BasicCurrentWeatherInformation: React.FC<{cityId:number}> = ({cityId}) => {
-    const[currentWeather, setCurrentWeather] = useState<CurrentWeather>();
-
-    
+    const[currentWeather, setCurrentWeather] = useState<ICurrentWeather>();
 
     useEffect(()=>{
         getCurrentWeather(cityId).then((res)=> {
@@ -64,7 +53,7 @@ export const BasicCurrentWeatherInformation: React.FC<{cityId:number}> = ({cityI
                             </Row>
                             <Row>
                                 <Col>
-                                    <Statistic title="Ciśnienie" value={currentWeather.pressure+" hpa"} />
+                                    <Statistic title="Ciśnienie" value={currentWeather.pressure+" hPa"} />
                                 </Col>
                             </Row>
                         </Col>
