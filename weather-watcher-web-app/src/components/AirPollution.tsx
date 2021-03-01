@@ -1,7 +1,8 @@
 import { Card, Col, Row, Table } from "antd";
 import React, { useEffect, useState } from "react"
 import { apiService } from "../apiService"
-import { StatisticsForAirPollution } from "./StatisticsForAirPollution";
+import { IAirPollution } from "./Interfaces/IAirPollution";
+import { StatisticsForAirPollution } from "./Helpers/StatisticsForAirPollution";
 import { WaitingForData } from "./WaitingForData";
 
 const AirQualityIndexToName : {[key: number]: string} = {
@@ -10,7 +11,6 @@ const AirQualityIndexToName : {[key: number]: string} = {
     3:"Dostateczna",
     4:"Zła",
     5:"Bardzo zła"
-
 }
 
 const columns = [
@@ -78,26 +78,10 @@ const columns = [
       },
 ]
 
-// {key ? (`${new Date(key).toLocaleDateString()} ${key.getHours}:${key.getMinutes}:`) : ''}
-
-export interface AirPollution
-{
-    airQualityIndex:number;
-    co:number;
-    no:number;
-    no2:number;
-    o3:number;
-    so2:number;
-    pm25:number;
-    pm10:number;
-    nh3:number;
-    date: Date;
-}
-
 let getAirPollution = (cityId: number) => {
     return apiService.getAirPollution(cityId).then((res)=>
     {
-        return res.data as AirPollution[];
+        return res.data as IAirPollution[];
     })
 }
 
@@ -115,7 +99,7 @@ let getDatestringFromDate = (date?: Date) =>
 let getStringWithZeros = (number: number) => number<10 ? `0${number}` : `${number}`;
 
 export const AirPollution: React.FC<{cityId:number}> = ({cityId}) => {
-    const[airPollutionList, setAirPollutionList] = useState<AirPollution[]>();
+    const[airPollutionList, setAirPollutionList] = useState<IAirPollution[]>();
     
     useEffect(()=>{
         getAirPollution(cityId).then((res)=>{

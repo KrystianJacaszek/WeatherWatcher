@@ -15,6 +15,7 @@ namespace API.Models
         public int SunSet { get; private set; }
         public int Clouds { get; private set; }
         public double Uvi { get; private set; }
+        public int UnixDateTime { get; private set; }
         public DateTime TimeStamp { get; private set; }
 
         public ComplexCurrentWeather(DailyForecastJson dailyForecastJson)
@@ -33,6 +34,7 @@ namespace API.Models
             SunSet = dailyForecastJson.Sunset;
             Clouds = dailyForecastJson.Clouds;
             Uvi = dailyForecastJson.Uvi;
+            UnixDateTime = dailyForecastJson.DateTime;
             TimeStamp = DateTime.Now.Date;
         }
     }

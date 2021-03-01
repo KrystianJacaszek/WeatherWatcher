@@ -8,6 +8,7 @@ import { WaitingForData } from './WaitingForData';
 import { AirPollution } from './AirPollution';
 import { ComplexCurrentWeather } from './ComplexCurrentWeather';
 import { ICityWithId } from './Interfaces/ICityWithId';
+import { Forecast } from './Forecast';
 
 const { Option } = Select;
 
@@ -397,6 +398,15 @@ export const WeatherHomePage: React.FC = () => {
                             <Col span={24}>
                                 <h3>Szczegółowe dane pogodowe</h3>
                                 <ComplexCurrentWeather cityId={selectedCity}/>
+                            </Col>
+                        </Row>
+                        <Row
+                            gutter={[16, 36]}
+                            style={{ alignItems: 'center' }}
+                            justify='center'>
+                            <Col span={24}>
+                                <h3>Prognoza pogody</h3>
+                                <Forecast cityId={selectedCity}/>
                             </Col>
                         </Row>
                     </>

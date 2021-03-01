@@ -22,7 +22,10 @@ const apiClient = axios.create({
       },
       getComplexCurrentWeather: async(cityId: number) => {
           return apiClient.get(`complexcurrentweather?id=${cityId}`);
-      }
+      },
+      getForecast: async(cityId: number) => {
+        return apiClient.get(`/forecast?id=${cityId}`);
+    }
   }
 
 

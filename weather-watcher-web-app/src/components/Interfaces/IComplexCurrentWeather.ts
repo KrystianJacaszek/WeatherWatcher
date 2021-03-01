@@ -14,5 +14,6 @@ export interface IComplexCurrentWeather{
     sunset:number;
     clouds:number;
     uvi:number;
+    unixDateTime: number;
     timeStamp: Date;
 }
