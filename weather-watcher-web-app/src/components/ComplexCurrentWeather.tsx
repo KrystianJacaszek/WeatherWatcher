@@ -14,25 +14,6 @@ let getComplexCurrentWeather = (cityId: number) => {
     })
 }
 
-let unixTimeStampToDateString = (timeStamp:number) => 
-{
-    console.log(timeStamp);
-    return new Date(timeStamp * 1000)
-}
-
-let getTimeStringFromDate = (date?: Date) => 
-{
-    if(date)
-    {
-        var newDate = new Date(date);
-        return `${getStringWithZeros(newDate.getHours())}:${getStringWithZeros(newDate.getMinutes())}`
-    }
-    else
-        return ''
-}
-
-let getStringWithZeros = (number: number) => number<10 ? `0${number}` : `${number}`;
-
 export const ComplexCurrentWeather: React.FC<{cityId:number}> = ({cityId}) => {
     const[complexCurrentWeather, setComplexCurrentWeather] = useState<IComplexCurrentWeather>();
     
