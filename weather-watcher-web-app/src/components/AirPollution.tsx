@@ -120,11 +120,6 @@ export const AirPollution: React.FC<{cityId:number}> = ({cityId}) => {
                         <Col span={12}>
                             <h4>Data pomiaru: </h4> {getDatestringFromDate(airPollutionList[0].date)}
                         </Col>
-                    </Row>
-                    <Row
-                        gutter={[16, 36]}
-                        style={{ alignItems: 'center' }}
-                        justify='center'>
                         <Col span={8}>
                             <StatisticsForAirPollution title="CO" value={airPollutionList[0].co} />
                         </Col>
@@ -134,11 +129,6 @@ export const AirPollution: React.FC<{cityId:number}> = ({cityId}) => {
                         <Col span={8}>
                             <StatisticsForAirPollution title="No" sub="2"  value={airPollutionList[0].no2} />
                         </Col>
-                    </Row>
-                    <Row
-                        gutter={[16, 36]}
-                        style={{ alignItems: 'center' }}
-                        justify='center'>
                         <Col span={8}>
                             <StatisticsForAirPollution title="O" sub="3" value={airPollutionList[0].o3} />
                         </Col>
@@ -148,22 +138,12 @@ export const AirPollution: React.FC<{cityId:number}> = ({cityId}) => {
                         <Col span={8}>
                             <StatisticsForAirPollution title="Nh" sub="3"  value={airPollutionList[0].nh3} />
                         </Col>
-                    </Row>
-                    <Row
-                        gutter={[16, 36]}
-                        style={{ alignItems: 'center', marginBottom: 30}}
-                        justify='center'>
                         <Col span={12}>
                             <StatisticsForAirPollution title="Pm" sub="25" value={airPollutionList[0].pm10} />
                         </Col>
                         <Col span={12}>
                             <StatisticsForAirPollution title="Pm" sub="10" value={airPollutionList[0].pm25} />
                         </Col>
-                    </Row>
-                    <Row
-                        gutter={[16, 48]}
-                        style={{ alignItems: 'center' }}
-                        justify='center'>
                         <Col span={24}>
                            <Table 
                            

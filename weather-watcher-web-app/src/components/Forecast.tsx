@@ -1,4 +1,4 @@
-import { Row, Col, Table } from "antd";
+import { Row, Col, Table, Radio } from "antd";
 import React, { useEffect, useState } from "react";
 import { apiService } from "../apiService";
 import { ComplexCurrentWeatherPartial } from "./ComplexCurrentWeatherPartial";
@@ -102,31 +102,41 @@ let getForecast = (cityId: number) => {
 
 export const Forecast: React.FC<{cityId:number}> = ({cityId}) => {
     const[forecast, setForecast] = useState<IComplexCurrentWeather[]>();
+    // const[currentForecast, setCurrentForecast] = useState<IComplexCurrentWeather>();
+    const[currentIndex, setCurrentIndex] = useState<number>(0);
     
     useEffect(()=>{
         getForecast(cityId).then((res)=>{
             setForecast(res);
+            // setCurrentForecast(res[0]);
         })
     },[])
+
+    const handleChangeCurrentForecast = (e:any) =>{
+        console.log("E target");
+        console.log(e);
+        if (forecast != undefined)
+            setCurrentIndex(e.target.value);
+            // setCurrentForecast(forecast[e.target.value]);
+    }
 
     return(
         <>
             { forecast? (
                 <>
-                    <ComplexCurrentWeatherPartial complexCurrentWeather={forecast[1]}/>
                     <Row
-                        gutter={[16, 48]}
-                        style={{ alignItems: 'center' }}
-                        justify='center'>
-                        <Col span={24}>
-                           <Table 
-                           
-                                  title={() => { return <h3>Prognoza pogody</h3>}}
-                                  columns={columns}
-                                  dataSource={forecast}
-                                  pagination={{ defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['5', '10', '15',]}}/>
+                            gutter={[16, 48]}
+                            style={{ alignItems: 'center', marginBottom: 20, marginTop: 20 }}
+                            justify='center'>
+                        <Col>
+                            <Radio.Group value={currentIndex} onChange={handleChangeCurrentForecast}>
+                                {forecast.map((f, index) => {
+                                    return <Radio.Button value={index}>{getDateStringFromDate(unixTimeStampToDateString(f.unixDateTime))}</Radio.Button>
+                                })}
+                            </Radio.Group>
                         </Col>
                     </Row>
+                    <ComplexCurrentWeatherPartial complexCurrentWeather={forecast[currentIndex]}/>
                 </>
             ) : (
                <>
