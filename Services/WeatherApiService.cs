@@ -27,7 +27,8 @@ namespace WeatherWatcher.Services
 
         public string GenerateAlertsRequestLink(CoordinatesJson coordinates)
         {
-            return $"onecall?lat={coordinates.Latitude}&lon={coordinates.Longitude}&exclude=current,minutely,hourly,daily&units=metric&appid={_apiKey}";
+            //return $"onecall?lat={coordinates.Latitude}&lon={coordinates.Longitude}&exclude=current,minutely,hourly,daily&units=metric&appid={_apiKey}";
+            return $"onecall?lat=33.441792&lon=-94.037689&exclude=current,minutely,hourly,daily&units=metric&appid={_apiKey}";
         }
 
         public string GenerateCurrentWeatherLink(int cityId)

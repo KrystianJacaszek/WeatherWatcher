@@ -1,46 +1,13 @@
 import { Card, Row, Col, Statistic } from "antd";
-import React, { useState, useEffect } from "react";
-import { apiService } from "../apiService";
+import React from "react";
+import { getDateStringFromDate, unixTimeStampToDateString, getTimeStringFromDate } from "./Helpers/DateConverters";
 import { StatisticsWithCelsciusDegree } from "./Helpers/StatisticsWithCelsciusDegree";
 import { StatisticsWithDegree } from "./Helpers/StatisticsWithDegree";
 import { IComplexCurrentWeather } from "./Interfaces/IComplexCurrentWeather";
 import { WaitingForData } from "./WaitingForData";
 
-let unixTimeStampToDateString = (timeStamp:number) => 
-{
-    console.log(timeStamp);
-    return new Date(timeStamp * 1000)
-}
-
-let getTimeStringFromDate = (date?: Date) => 
-{
-    if(date)
-    {
-        var newDate = new Date(date);
-        return `${getStringWithZeros(newDate.getHours())}:${getStringWithZeros(newDate.getMinutes())}`
-    }
-    else
-        return ''
-}
-
-let getDateStringFromDate = (date?: Date) => 
-{
-    if(date)
-    {
-        var newDate = new Date(date);
-        return `${getStringWithZeros(newDate.getDay())}.${getStringWithZeros(newDate.getMonth())}.${getStringWithZeros(newDate.getFullYear())}`
-    }
-    else
-        return ''
-}
-
-let getStringWithZeros = (number: number) => number<10 ? `0${number}` : `${number}`;
-
 export const ComplexCurrentWeatherPartial: React.FC<{complexCurrentWeather:IComplexCurrentWeather}> = ({complexCurrentWeather}) => {
     
-    useEffect(()=>{
-    },)
-
     return(
         <>
             { complexCurrentWeather? (

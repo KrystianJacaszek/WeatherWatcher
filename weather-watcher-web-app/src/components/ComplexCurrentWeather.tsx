@@ -1,9 +1,6 @@
-import { Card, Row, Col, Statistic } from "antd";
 import React, { useState, useEffect } from "react";
 import { apiService } from "../apiService";
 import { ComplexCurrentWeatherPartial } from "./ComplexCurrentWeatherPartial";
-import { StatisticsWithCelsciusDegree } from "./Helpers/StatisticsWithCelsciusDegree";
-import { StatisticsWithDegree } from "./Helpers/StatisticsWithDegree";
 import { IComplexCurrentWeather } from "./Interfaces/IComplexCurrentWeather";
 import { WaitingForData } from "./WaitingForData";
 

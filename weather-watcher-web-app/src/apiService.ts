@@ -25,6 +25,9 @@ const apiClient = axios.create({
       },
       getForecast: async(cityId: number) => {
         return apiClient.get(`/forecast?id=${cityId}`);
+      },
+      getAlerts: async(cityId: number) => {
+        return apiClient.get(`/alerts?id=${cityId}`);
     }
   }
 

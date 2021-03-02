@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Select, Form, Card } from 'antd';
+import { Row, Col, Select, Form, Card, Menu } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { apiService } from '../apiService';
 import FormItem from 'antd/lib/form/FormItem';
@@ -9,6 +9,8 @@ import { AirPollution } from './AirPollution';
 import { ComplexCurrentWeather } from './ComplexCurrentWeather';
 import { ICityWithId } from './Interfaces/ICityWithId';
 import { Forecast } from './Forecast';
+import { Alerts } from './Alerts';
+import { current } from '@reduxjs/toolkit';
 
 const { Option } = Select;
 
@@ -227,11 +229,14 @@ const CountriesIsoNames =
         "ZW"
     ];
 
+const menuItems = ["basic", "advanced"];
+
 export const WeatherHomePage: React.FC = () => {
     const[selectedCountry, setSelectedCountry] = useState<string>("PL");
     const[selectedCity, setSelectedCity] = useState<number>();
     const[countryList, setCountryList] = useState<{[key: string]: string}>();
     const[cityList, setCityList] = useState<ICityWithId[]>();
+    const[selectedMenuItem, setSelectedMenuItem] = useState<string>("basic");
 
     let getCountryList = () => {
         return apiService.getCountryList().then((res) =>{
@@ -268,6 +273,11 @@ export const WeatherHomePage: React.FC = () => {
         setCityList(getCityListData);
     }
 
+    const handleClickMenu = (e: any) => {
+        console.log(e.key);
+        setSelectedMenuItem(e.key);
+      };
+
     useEffect(() => {
         var selectedCountryFromLocalStorage = localStorage.getItem("selectedCountry");
         if(selectedCountryFromLocalStorage !== undefined && selectedCountryFromLocalStorage !== null)
@@ -283,14 +293,21 @@ export const WeatherHomePage: React.FC = () => {
     return (
         <>
             <Row
-            gutter={[16, 36]}
-            style={{ alignItems: 'center' }}
-            justify='center'>
-                <Col span={24}>
-                <h1>Podstawowe informacje pogodowe</h1>
-                </Col>
-            </Row>
-            <Card>
+                gutter={[16, 36]}
+                style={{ alignItems: 'center', marginTop:30, marginBottom: 30 }}
+                justify='space-around'>
+                    <Col span={24}>
+                        <Menu onClick={handleClickMenu} selectedKeys={[selectedMenuItem]} mode="horizontal">
+                            <Menu.Item key={"basic"}>
+                                Podstawowe informacje pogodowe
+                            </Menu.Item>
+                            <Menu.Item key={"advanced"}>
+                                Szczegółowe informacje pogodowe
+                            </Menu.Item>
+                        </Menu>
+                    </Col>
+                </Row>
+            <Card style={{marginBottom: 20}}>
                 <Row
                 gutter={[16, 36]}
                 style={{ alignItems: 'center' }}
@@ -370,45 +387,79 @@ export const WeatherHomePage: React.FC = () => {
                         </>
                     )}
                 </Row>
+            </Card>
+            <Card>
 
                 {selectedCity? (
                     <>
-                        <Row
-                            gutter={[16, 36]}
-                            style={{ alignItems: 'center' }}
-                            justify='center'>
-                            <Col span={12}>
-                                <h3>Aktualna pogoda</h3>
-                                <BasicCurrentWeatherInformation cityId={selectedCity}/>
-                            </Col>
-                        </Row>
-                        <Row
-                            gutter={[16, 36]}
-                            style={{ alignItems: 'center' }}
-                            justify='center'>
-                            <Col span={24}>
-                                <h3>Zanieczyszczenie powietrza</h3>
-                                <AirPollution cityId={selectedCity}/>
-                            </Col>
-                        </Row>
-                        <Row
-                            gutter={[16, 36]}
-                            style={{ alignItems: 'center' }}
-                            justify='center'>
-                            <Col span={24}>
-                                <h3>Szczegółowe dane pogodowe</h3>
-                                <ComplexCurrentWeather cityId={selectedCity}/>
-                            </Col>
-                        </Row>
-                        <Row
-                            gutter={[16, 36]}
-                            style={{ alignItems: 'center' }}
-                            justify='center'>
-                            <Col span={24}>
-                                <h3>Prognoza pogody</h3>
-                                <Forecast cityId={selectedCity}/>
-                            </Col>
-                        </Row>
+                        {selectedMenuItem == "basic" ? (
+                            <>
+                                <Row
+                                    gutter={[16, 36]}
+                                    style={{ alignItems: 'center' }}
+                                    justify='center'>
+                                    <Col span={24}>
+                                    <h1>Podstawowe informacje pogodowe</h1>
+                                    </Col>
+                                </Row>
+                                <Row
+                                    gutter={[16, 36]}
+                                    style={{ alignItems: 'center' }}
+                                    justify='center'>
+                                    <Col span={12}>
+                                        <h3>Aktualna pogoda</h3>
+                                        <BasicCurrentWeatherInformation cityId={selectedCity}/>
+                                    </Col>
+                                </Row>
+                            </>
+                        ) : (
+                            <>
+                                <Row
+                                    gutter={[16, 36]}
+                                    style={{ alignItems: 'center'}}
+                                    justify='center'>
+                                    <Col span={24}>
+                                    <h1>Szczegółowe informacje pogodowe</h1>
+                                    </Col>
+                                </Row>
+                                <Row
+                                    gutter={[16, 36]}
+                                    style={{ alignItems: 'center', marginTop: 30 }}
+                                    justify='center'>
+                                    <Col span={24}>
+                                        <h3>Prognoza pogody</h3>
+                                        <ComplexCurrentWeather cityId={selectedCity}/>
+                                    </Col>
+                                </Row>
+                                <Row
+                                    gutter={[16, 36]}
+                                    style={{ alignItems: 'center', marginTop: 20 }}
+                                    justify='center'>
+                                    <Col span={24}>
+                                        <h3>Prognoza pogody na kolejne dni</h3>
+                                        <Forecast cityId={selectedCity}/>
+                                    </Col>
+                                </Row>
+                                <Row
+                                    gutter={[16, 36]}
+                                    style={{ alignItems: 'center', marginTop: 30 }}
+                                    justify='center'>
+                                    <Col span={24}>
+                                        <h3>Zanieczyszczenie powietrza</h3>
+                                        <AirPollution cityId={selectedCity}/>
+                                    </Col>
+                                </Row>
+                                <Row
+                                    gutter={[16, 36]}
+                                    style={{ alignItems: 'center', marginTop: 30 }}
+                                    justify='center'>
+                                    <Col span={24}>
+                                        <h3>Alerty pogodowe</h3>
+                                        <Alerts cityId={selectedCity}/>
+                                    </Col>
+                                </Row>
+                            </>
+                        )}
                     </>
                 ) : (
                     <>
@@ -417,7 +468,6 @@ export const WeatherHomePage: React.FC = () => {
                         </Col>
                     </>
                 )} 
-                
             </Card>
         </>
     ) 

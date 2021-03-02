@@ -1,4 +1,4 @@
-import { Row, Col, Table, Radio } from "antd";
+import { Row, Col, Radio } from "antd";
 import React, { useEffect, useState } from "react";
 import { apiService } from "../apiService";
 import { ComplexCurrentWeatherPartial } from "./ComplexCurrentWeatherPartial";
@@ -92,7 +92,8 @@ export const Forecast: React.FC<{cityId:number}> = ({cityId}) => {
                             gutter={[16, 48]}
                             style={{ alignItems: 'center', marginBottom: 20, marginTop: 20 }}
                             justify='center'>
-                        <Col>
+                        <Col style={{marginTop: 10, marginBottom:10 }}
+                        >
                             <Radio.Group value={currentIndex} onChange={handleChangeCurrentForecast}>
                                 {forecast.map((f, index) => {
                                     return <Radio.Button value={index}>{getDateStringFromDate(unixTimeStampToDateString(f.unixDateTime))}</Radio.Button>
