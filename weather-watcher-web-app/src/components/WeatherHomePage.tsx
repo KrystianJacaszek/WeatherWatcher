@@ -331,7 +331,6 @@ export const WeatherHomePage: React.FC = () => {
                                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                                             }
                                             >
-                                                {console.log(countryList)}
                                         {CountriesIsoNames.map((isoName) => {
                                             return <Option value={isoName}>{countryList[`${isoName}`]}</Option>
                                         } )}
