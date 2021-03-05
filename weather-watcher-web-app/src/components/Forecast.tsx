@@ -4,7 +4,7 @@ import { ComplexCurrentWeatherPartial } from "./ComplexCurrentWeatherPartial";
 import { getDateStringFromDate, unixTimeStampToDateString } from "./Helpers/DateConverters";
 import { ITemps } from "./Interfaces/ITemps";
 import { WaitingForData } from "./WaitingForData";
-import { selectSelectedCity, setSelectedCity } from './selectedCitySlice'
+import { selectSelectedCity } from './selectedCitySlice'
 import { fetchForecastList, selectForecastList } from './forecastListSlice';
 import { useDispatch, useSelector } from "react-redux";
 
