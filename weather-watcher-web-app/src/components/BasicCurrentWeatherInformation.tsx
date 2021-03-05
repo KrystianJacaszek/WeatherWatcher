@@ -1,25 +1,20 @@
 import { Card, Col,  Row, Statistic } from "antd";
-import React, { useEffect, useState } from "react";
-import { apiService } from "../apiService";
+import React, { useEffect } from "react";
 import { StatisticsWithCelsciusDegree } from "./Helpers/StatisticsWithCelsciusDegree";
 import { ImageFromIconName } from "./Helpers/ImageFromIconName";
-import { ICurrentWeather } from "./Interfaces/ICurrentWeather";
 import { WaitingForData } from "./WaitingForData";
+import { useSelector, useDispatch } from "react-redux";
+import { selectSelectedCity } from "./selectedCitySlice";
+import { fetchCurrentWeather, selectCurrentWeather } from "./currentWeatherSlice";
 
-let getCurrentWeather = (cityId: number) => {
-    return apiService.getCurrentWeather(cityId).then((res) => {
-        return res.data as ICurrentWeather;
-    })
-}
-
-export const BasicCurrentWeatherInformation: React.FC<{cityId:number}> = ({cityId}) => {
-    const[currentWeather, setCurrentWeather] = useState<ICurrentWeather>();
+export const BasicCurrentWeatherInformation: React.FC = () => {
+    const cityId = useSelector(selectSelectedCity);
+    const currentWeather = useSelector(selectCurrentWeather);
+    const dispatch = useDispatch();
 
     useEffect(()=>{
-        getCurrentWeather(cityId).then((res)=> {
-            setCurrentWeather(res);
-        })
-    })
+        dispatch(fetchCurrentWeather(cityId));
+    }, [])
     return (
         <>
             {currentWeather ? (

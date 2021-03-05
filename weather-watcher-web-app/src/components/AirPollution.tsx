@@ -1,10 +1,11 @@
 import { Card, Col, Row, Table } from "antd";
-import React, { useEffect, useState } from "react"
-import { apiService } from "../apiService"
-import { IAirPollution } from "./Interfaces/IAirPollution";
+import React, { useEffect } from "react"
 import { StatisticsForAirPollution } from "./Helpers/StatisticsForAirPollution";
 import { WaitingForData } from "./WaitingForData";
 import { getDateStringWithTimeFromDate } from "./Helpers/DateConverters";
+import { selectSelectedCity } from './selectedCitySlice';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAirPollutionList, selectAirPollutionList} from './airPollutionListSlice';
 
 const AirQualityIndexToName : {[key: number]: string} = {
     1:"Bardzo dobra",
@@ -79,22 +80,13 @@ const columns = [
       },
 ]
 
-let getAirPollution = (cityId: number) => {
-    return apiService.getAirPollution(cityId).then((res)=>
-    {
-        return res.data as IAirPollution[];
-    })
-}
-
-
-
-export const AirPollution: React.FC<{cityId:number}> = ({cityId}) => {
-    const[airPollutionList, setAirPollutionList] = useState<IAirPollution[]>();
+export const AirPollution: React.FC = () => {
+    const cityId = useSelector(selectSelectedCity);
+    const airPollutionList = useSelector(selectAirPollutionList);
+    const dispatch = useDispatch();
     
     useEffect(()=>{
-        getAirPollution(cityId).then((res)=>{
-            setAirPollutionList(res);
-        })
+        dispatch(fetchAirPollutionList(cityId));
     },[])
     return(
         <>

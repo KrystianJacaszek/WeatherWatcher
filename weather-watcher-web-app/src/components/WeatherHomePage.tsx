@@ -14,6 +14,8 @@ import { fetchForecastList } from './forecastListSlice';
 import { selectSelectedCountry, setSelectedCountry } from './selectedCountrySlice'
 import { selectSelectedCity, setSelectedCity } from './selectedCitySlice'
 import { fetchComplexCurrentWeather } from './complexCurrentWeatherSlice';
+import { fetchAirPollutionList } from './airPollutionListSlice';
+import { fetchCurrentWeather } from "./currentWeatherSlice";
 
 
 const { Option } = Select;
@@ -252,8 +254,16 @@ export const WeatherHomePage: React.FC = () => {
     let selectCity = (key: number) =>
     {
         dispatch(setSelectedCity(key));
-        dispatch(fetchForecastList(key));
-        dispatch(fetchComplexCurrentWeather(key));
+        if(selectedMenuItem != "basic")
+        {
+            dispatch(fetchForecastList(key));
+            dispatch(fetchComplexCurrentWeather(key));
+            dispatch(fetchAirPollutionList(key));
+        }
+        else
+        {
+            dispatch(fetchCurrentWeather(key));
+        }
     }
 
     const loadItems = async () => {
@@ -396,7 +406,7 @@ export const WeatherHomePage: React.FC = () => {
                                     justify='center'>
                                     <Col span={12}>
                                         <h3>Aktualna pogoda</h3>
-                                        <BasicCurrentWeatherInformation cityId={selectedCity}/>
+                                        <BasicCurrentWeatherInformation/>
                                     </Col>
                                 </Row>
                             </>
@@ -434,7 +444,7 @@ export const WeatherHomePage: React.FC = () => {
                                     justify='center'>
                                     <Col span={24}>
                                         <h3>Zanieczyszczenie powietrza</h3>
-                                        <AirPollution cityId={selectedCity}/>
+                                        <AirPollution/>
                                     </Col>
                                 </Row>
                                 <Row
@@ -443,7 +453,7 @@ export const WeatherHomePage: React.FC = () => {
                                     justify='center'>
                                     <Col span={24}>
                                         <h3>Alerty pogodowe</h3>
-                                        <Alerts cityId={selectedCity}/>
+                                        <Alerts/>
                                     </Col>
                                 </Row>
                             </>

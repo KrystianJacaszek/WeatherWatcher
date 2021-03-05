@@ -5,6 +5,9 @@ import countryListReducer from '../components/countryListSlice';
 import cityListReducer from '../components/cityListSlice';
 import forecastListReducer from '../components/forecastListSlice';
 import complexCurrentWeatherReducer from '../components/complexCurrentWeatherSlice';
+import airPollutionListReducer from '../components/airPollutionListSlice';
+import alertListReducer from '../components/alertListSlice';
+import currentWeatherReducer from '../components/currentWeatherSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +17,9 @@ export const store = configureStore({
     cityList: cityListReducer,
     forecastList: forecastListReducer,
     complexCurrentWeather: complexCurrentWeatherReducer,
+    airPollutionList: airPollutionListReducer,
+    alertList: alertListReducer,
+    currentWeather: currentWeatherReducer,
   },
 });
 

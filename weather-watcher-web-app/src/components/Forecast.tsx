@@ -1,9 +1,7 @@
 import { Row, Col, Radio } from "antd";
 import React, { useEffect, useState } from "react";
-import { apiService } from "../apiService";
 import { ComplexCurrentWeatherPartial } from "./ComplexCurrentWeatherPartial";
 import { getDateStringFromDate, unixTimeStampToDateString } from "./Helpers/DateConverters";
-import { IComplexCurrentWeather } from "./Interfaces/IComplexCurrentWeather";
 import { ITemps } from "./Interfaces/ITemps";
 import { WaitingForData } from "./WaitingForData";
 import { selectSelectedCity, setSelectedCity } from './selectedCitySlice'
@@ -62,13 +60,6 @@ const columns = [
         )
       }
 ]
-
-let getForecast = (cityId: number) => {
-    return apiService.getForecast(cityId).then((res)=>
-    {
-        return res.data as IComplexCurrentWeather[]
-    })
-}
 
 export const Forecast: React.FC = () => {
     const cityId = useSelector(selectSelectedCity);

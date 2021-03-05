@@ -1,16 +1,11 @@
 import { Card, Col, Row, Table } from "antd";
-import React, { useState } from "react"
+import React from "react"
 import { useEffect } from "react"
-import { apiService } from "../apiService";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAlertList, selectAlertList } from "./alertListSlice";
 import { getDateStringFromDate, unixTimeStampToDateString } from "./Helpers/DateConverters";
-import { IAlertDetails } from "./Interfaces/IAlertsDetails";
+import { selectSelectedCity } from "./selectedCitySlice";
 import { WaitingForData } from "./WaitingForData";
-
-let getAlerts = (cityId: number) => {
-    return apiService.getAlerts(cityId).then((res) => {
-        return res.data as IAlertDetails[];
-    })
-}
 
 const columns = [
     {
@@ -45,13 +40,13 @@ const columns = [
       },
 ]
 
-export const Alerts: React.FC<{cityId:number}> = ({cityId}) => {
-    const[alerts, setAlerts] = useState<IAlertDetails[]>();
+export const Alerts: React.FC = () => {
+    const cityId = useSelector(selectSelectedCity);
+    const alerts = useSelector(selectAlertList);
+    const dispatch = useDispatch();
     
     useEffect(()=>{
-        getAlerts(cityId).then((res) =>{
-            setAlerts(res);
-        })
+        dispatch(fetchAlertList(cityId));
     },[])
 
     return (
