@@ -1,9 +1,19 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import selectedCountryReducer from '../components/selectedCountrySlice';
+import selectedCityReducer from '../components/selectedCitySlice';
+import countryListReducer from '../components/countryListSlice';
+import cityListReducer from '../components/cityListSlice';
+import forecastListReducer from '../components/forecastListSlice';
+import complexCurrentWeatherReducer from '../components/complexCurrentWeatherSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    selectedCountry: selectedCountryReducer,
+    selectedCity: selectedCityReducer,
+    countryList: countryListReducer,
+    cityList: cityListReducer,
+    forecastList: forecastListReducer,
+    complexCurrentWeather: complexCurrentWeatherReducer,
   },
 });
 

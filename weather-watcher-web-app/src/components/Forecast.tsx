@@ -6,6 +6,9 @@ import { getDateStringFromDate, unixTimeStampToDateString } from "./Helpers/Date
 import { IComplexCurrentWeather } from "./Interfaces/IComplexCurrentWeather";
 import { ITemps } from "./Interfaces/ITemps";
 import { WaitingForData } from "./WaitingForData";
+import { selectSelectedCity, setSelectedCity } from './selectedCitySlice'
+import { fetchForecastList, selectForecastList } from './forecastListSlice';
+import { useDispatch, useSelector } from "react-redux";
 
 const columns = [
     {
@@ -67,14 +70,14 @@ let getForecast = (cityId: number) => {
     })
 }
 
-export const Forecast: React.FC<{cityId:number}> = ({cityId}) => {
-    const[forecast, setForecast] = useState<IComplexCurrentWeather[]>();
+export const Forecast: React.FC = () => {
+    const cityId = useSelector(selectSelectedCity);
+    const forecast = useSelector(selectForecastList);
+    const dispatch = useDispatch();
     const[currentIndex, setCurrentIndex] = useState<number>(0);
     
     useEffect(()=>{
-        getForecast(cityId).then((res)=>{
-            setForecast(res);
-        })
+        dispatch(fetchForecastList(cityId));
     },[])
 
     const handleChangeCurrentForecast = (e:any) =>{

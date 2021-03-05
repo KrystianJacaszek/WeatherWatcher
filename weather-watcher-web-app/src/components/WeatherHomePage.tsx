@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Select, Form, Card, Menu } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { apiService } from '../apiService';
 import FormItem from 'antd/lib/form/FormItem';
 import { BasicCurrentWeatherInformation } from './BasicCurrentWeatherInformation';
 import { WaitingForData } from './WaitingForData';
 import { AirPollution } from './AirPollution';
 import { ComplexCurrentWeather } from './ComplexCurrentWeather';
-import { ICityWithId } from './Interfaces/ICityWithId';
 import { Forecast } from './Forecast';
 import { Alerts } from './Alerts';
-import { current } from '@reduxjs/toolkit';
+import { fetchCountryList, selectCountryList } from './countryListSlice';
+import { fetchCityList, selectCityList } from './cityListSlice';
+import { fetchForecastList } from './forecastListSlice';
+import { selectSelectedCountry, setSelectedCountry } from './selectedCountrySlice'
+import { selectSelectedCity, setSelectedCity } from './selectedCitySlice'
+import { fetchComplexCurrentWeather } from './complexCurrentWeatherSlice';
+
 
 const { Option } = Select;
 
@@ -232,60 +236,43 @@ const CountriesIsoNames =
 const menuItems = ["basic", "advanced"];
 
 export const WeatherHomePage: React.FC = () => {
-    const[selectedCountry, setSelectedCountry] = useState<string>("PL");
-    const[selectedCity, setSelectedCity] = useState<number>();
-    const[countryList, setCountryList] = useState<{[key: string]: string}>();
-    const[cityList, setCityList] = useState<ICityWithId[]>();
+    const countryList = useSelector(selectCountryList);
+    const cityList = useSelector(selectCityList);
+    const selectedCountry = useSelector(selectSelectedCountry);
+    const selectedCity = useSelector(selectSelectedCity);
+    const dispatch = useDispatch();
     const[selectedMenuItem, setSelectedMenuItem] = useState<string>("basic");
-
-    let getCountryList = () => {
-        return apiService.getCountryList().then((res) =>{
-            return res.data as {[key: string]: string}
-        })
-    };
-
-    let getCityList = (isoName: string) => {
-        return apiService.getCityList(isoName).then((res) =>{
-            return res.data as ICityWithId[]
-        })
-    }
 
     let selectCountry = (key: string) =>
     {
-        localStorage.setItem("selectCountry", key);
-        setSelectedCountry(key);
-        getCityList(key).then((res) => {
-            setCityList(res);
-        });
+        dispatch(setSelectedCountry(key));
+        dispatch(fetchCityList(key));
     }
 
     let selectCity = (key: number) =>
     {
-        localStorage.setItem("selectCity", key.toString());
-        setSelectedCity(key);
+        dispatch(setSelectedCity(key));
+        dispatch(fetchForecastList(key));
+        dispatch(fetchComplexCurrentWeather(key));
     }
 
     const loadItems = async () => {
-        const getCountryListData = await getCountryList();
-        setCountryList(getCountryListData);
-
-        const getCityListData = await getCityList(selectedCountry);
-        setCityList(getCityListData);
+        dispatch(fetchCountryList());
+        dispatch(fetchCityList(selectedCountry));
     }
 
     const handleClickMenu = (e: any) => {
-        console.log(e.key);
         setSelectedMenuItem(e.key);
       };
 
     useEffect(() => {
         var selectedCountryFromLocalStorage = localStorage.getItem("selectedCountry");
         if(selectedCountryFromLocalStorage !== undefined && selectedCountryFromLocalStorage !== null)
-            setSelectedCountry(selectedCountryFromLocalStorage);
+            dispatch(setSelectedCountry(selectedCountryFromLocalStorage));
         
         var selectedCityFromLocalStorage = localStorage.getItem("selectCity");
         if(selectedCityFromLocalStorage !== undefined && selectedCityFromLocalStorage !== null)
-            setSelectedCity(parseInt(selectedCityFromLocalStorage));
+            dispatch(setSelectedCity(parseInt(selectedCityFromLocalStorage)));
 
         Promise.all([loadItems()]);
     }, []);
@@ -334,6 +321,7 @@ export const WeatherHomePage: React.FC = () => {
                                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                                             }
                                             >
+                                                {console.log(countryList)}
                                         {CountriesIsoNames.map((isoName) => {
                                             return <Option value={isoName}>{countryList[`${isoName}`]}</Option>
                                         } )}
@@ -428,7 +416,7 @@ export const WeatherHomePage: React.FC = () => {
                                     justify='center'>
                                     <Col span={24}>
                                         <h3>Prognoza pogody</h3>
-                                        <ComplexCurrentWeather cityId={selectedCity}/>
+                                        <ComplexCurrentWeather/>
                                     </Col>
                                 </Row>
                                 <Row
@@ -437,7 +425,7 @@ export const WeatherHomePage: React.FC = () => {
                                     justify='center'>
                                     <Col span={24}>
                                         <h3>Prognoza pogody na kolejne dni</h3>
-                                        <Forecast cityId={selectedCity}/>
+                                        <Forecast/>
                                     </Col>
                                 </Row>
                                 <Row

@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { apiService } from "../apiService";
+import React, { useEffect } from "react";
 import { ComplexCurrentWeatherPartial } from "./ComplexCurrentWeatherPartial";
-import { IComplexCurrentWeather } from "./Interfaces/IComplexCurrentWeather";
 import { WaitingForData } from "./WaitingForData";
+import { selectSelectedCity } from './selectedCitySlice'
+import { useDispatch, useSelector } from "react-redux";
+import { selectComplexCurrentWeather, fetchComplexCurrentWeather } from './complexCurrentWeatherSlice';
 
-let getComplexCurrentWeather = (cityId: number) => {
-    return apiService.getComplexCurrentWeather(cityId).then((res)=>
-    {
-        return res.data as IComplexCurrentWeather;
-    })
-}
-
-export const ComplexCurrentWeather: React.FC<{cityId:number}> = ({cityId}) => {
-    const[complexCurrentWeather, setComplexCurrentWeather] = useState<IComplexCurrentWeather>();
+export const ComplexCurrentWeather: React.FC = () => {
+    const cityId = useSelector(selectSelectedCity);
+    const complexCurrentWeather = useSelector(selectComplexCurrentWeather)
+    const dispatch = useDispatch();
     
     useEffect(()=>{
-        getComplexCurrentWeather(cityId).then((res)=>{
-            setComplexCurrentWeather(res);
-        })
+        dispatch(fetchComplexCurrentWeather(cityId));
     },[])
 
     return(

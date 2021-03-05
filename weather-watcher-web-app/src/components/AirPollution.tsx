@@ -4,6 +4,7 @@ import { apiService } from "../apiService"
 import { IAirPollution } from "./Interfaces/IAirPollution";
 import { StatisticsForAirPollution } from "./Helpers/StatisticsForAirPollution";
 import { WaitingForData } from "./WaitingForData";
+import { getDateStringWithTimeFromDate } from "./Helpers/DateConverters";
 
 const AirQualityIndexToName : {[key: number]: string} = {
     1:"Bardzo dobra",
@@ -72,7 +73,7 @@ const columns = [
         key: 'date',
         render: (key?: Date) => (
             <>
-                {getDatestringFromDate(key)}
+                {getDateStringWithTimeFromDate(key)}
             </>
         )
       },
@@ -85,18 +86,7 @@ let getAirPollution = (cityId: number) => {
     })
 }
 
-let getDatestringFromDate = (date?: Date) => 
-{
-    if(date)
-    {
-        var newDate = new Date(date);
-        return `${newDate.toLocaleDateString()} ${getStringWithZeros(newDate.getHours())}:${getStringWithZeros(newDate.getMinutes())}`
-    }
-    else
-        return ''
-}
 
-let getStringWithZeros = (number: number) => number<10 ? `0${number}` : `${number}`;
 
 export const AirPollution: React.FC<{cityId:number}> = ({cityId}) => {
     const[airPollutionList, setAirPollutionList] = useState<IAirPollution[]>();
@@ -118,7 +108,7 @@ export const AirPollution: React.FC<{cityId:number}> = ({cityId}) => {
                             <h4>Jakość powietrza: </h4>{AirQualityIndexToName[airPollutionList[0].airQualityIndex]}
                         </Col>
                         <Col span={12}>
-                            <h4>Data pomiaru: </h4> {getDatestringFromDate(airPollutionList[0].date)}
+                            <h4>Data pomiaru: </h4> {getDateStringWithTimeFromDate(airPollutionList[0].date)}
                         </Col>
                         <Col span={8}>
                             <StatisticsForAirPollution title="CO" value={airPollutionList[0].co} />
