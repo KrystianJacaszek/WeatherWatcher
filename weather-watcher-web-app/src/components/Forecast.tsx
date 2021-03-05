@@ -72,8 +72,6 @@ export const Forecast: React.FC = () => {
     },[])
 
     const handleChangeCurrentForecast = (e:any) =>{
-        console.log("E target");
-        console.log(e);
         if (forecast != undefined)
             setCurrentIndex(e.target.value);
     }
