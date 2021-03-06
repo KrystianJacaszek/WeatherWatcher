@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Net.Http.Headers;
 using WeatherWatcher.Services;
@@ -18,20 +19,29 @@ namespace WeatherWatcher
         {
             Configuration = configuration;
         }
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
 
-            // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "weather-watcher-web-app/build";
-                //configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "API for Weather Watcher APP",
+                    Description = "ASP.NET Core Web API for Weather Watcher",
+                    Contact = new OpenApiContact() { Name = "Krystian Jacaszek", Email = "krystian.jacaszek@gmail.com" }
+                });
+            });
+
 
             services.AddHttpClient<IWeatherApiService, WeatherApiService>(options =>
             {
@@ -42,7 +52,6 @@ namespace WeatherWatcher
             services.AddSingleton<IListGeneratorFromJsonFiles, ListGeneratorFromJsonFiles>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -54,6 +63,16 @@ namespace WeatherWatcher
                 app.UseExceptionHandler("/Error");
             }
 
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = true;
+            });
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherWatcherAPI");
+            });
+
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -62,14 +81,10 @@ namespace WeatherWatcher
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //endpoints.MapControllerRoute(
-                //    name: "default",
-                //    pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
             {
-                //spa.Options.SourcePath = "ClientApp";
                 spa.Options.SourcePath = "weather-watcher-web-app";
 
                 if (env.IsDevelopment())
