@@ -20,16 +20,16 @@ export const ComplexCurrentWeatherPartial: React.FC<{complexCurrentWeather:IComp
                                 gutter={[0, 24]}
                                 style={{ alignItems: 'center' }}
                                 justify='center'>
-                                <Col span={12}>
+                                <Col xs={12} sm={12} md={12} lg={12}>
                                     <StatisticsWithCelsciusDegree title="Dzień" value={complexCurrentWeather.feelTemps.day} />
                                 </Col>
-                                <Col span={12}>
+                                <Col xs={12} sm={12} md={12} lg={12}>
                                     <StatisticsWithCelsciusDegree title="Noc" value={complexCurrentWeather.feelTemps.night} />
                                 </Col>
-                                <Col span={12}>
+                                <Col xs={12} sm={12} md={12} lg={12}>
                                     <StatisticsWithCelsciusDegree title="Południe" value={complexCurrentWeather.feelTemps.morning} />
                                 </Col>
-                                <Col span={12}>
+                                <Col xs={12} sm={12} md={12} lg={12}>
                                     <StatisticsWithCelsciusDegree title="Wieczór" value={complexCurrentWeather.feelTemps.evening} />
                                 </Col>
                             </Row>
@@ -44,22 +44,22 @@ export const ComplexCurrentWeatherPartial: React.FC<{complexCurrentWeather:IComp
                                         gutter={[16, 12]}
                                         style={{ alignItems: 'center' }}
                                         justify='center'>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <StatisticsWithCelsciusDegree title="Dzień" value={complexCurrentWeather.temps.day} />
                                         </Col>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <StatisticsWithCelsciusDegree title="Noc" value={complexCurrentWeather.temps.night} />
                                         </Col>                            
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <StatisticsWithCelsciusDegree title="Min" value={complexCurrentWeather.temps.min} />
                                         </Col>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <StatisticsWithCelsciusDegree title="Max" value={complexCurrentWeather.temps.max} />
                                         </Col>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <StatisticsWithCelsciusDegree title="Południe" value={complexCurrentWeather.temps.morning} />
                                         </Col>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <StatisticsWithCelsciusDegree title="Wieczór" value={complexCurrentWeather.temps.evening} />
                                         </Col>
                                     </Row>
@@ -72,22 +72,22 @@ export const ComplexCurrentWeatherPartial: React.FC<{complexCurrentWeather:IComp
                                         gutter={[16, 12]}
                                         style={{ alignItems: 'center' }}
                                         justify='center'>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <Statistic title="Ciśnienie" value={complexCurrentWeather.pressure+"hPa"} />
                                         </Col>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <Statistic title="Wilgotność" value={complexCurrentWeather.humidity+"%"} />
                                         </Col>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <Statistic title="Zachmurzenie" value={complexCurrentWeather.clouds+"%"}/>
                                         </Col>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                         <Statistic title="Index UV" value={complexCurrentWeather.uvi}/>
                                         </Col>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <Statistic title="Zachód słońca" value={complexCurrentWeather.sunset ? getTimeStringFromDate(unixTimeStampToDateString(complexCurrentWeather.sunset)) : "Brak danych"} />
                                         </Col>
-                                        <Col span={12}>
+                                        <Col xs={24} sm={12} md={12} lg={12}>
                                             <Statistic title="Świt" value={complexCurrentWeather.sunrise ? getTimeStringFromDate(unixTimeStampToDateString(complexCurrentWeather.sunrise)) : "Brak danych"} />
                                         </Col>
                                     </Row>

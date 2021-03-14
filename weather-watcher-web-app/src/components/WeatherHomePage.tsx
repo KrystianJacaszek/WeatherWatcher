@@ -312,7 +312,7 @@ export const WeatherHomePage: React.FC = () => {
                 
                 {countryList !=undefined ? (
                     <>
-                        <Col span={6}>
+                        <Col lg={12} xl={6}>
                             <Form>
                                 <FormItem
                                     label = 'Lista krajów'
@@ -349,7 +349,7 @@ export const WeatherHomePage: React.FC = () => {
 
                     {cityList != undefined ? (
                         <>
-                            <Col span={6}>
+                            <Col lg={12} xl={6}>
                                 <Form>
                                     <FormItem
                                         label = 'Lista miast'
@@ -403,7 +403,7 @@ export const WeatherHomePage: React.FC = () => {
                                     gutter={[16, 36]}
                                     style={{ alignItems: 'center' }}
                                     justify='center'>
-                                    <Col span={12}>
+                                    <Col sm={18} md={12}>
                                         <h3>Aktualna pogoda</h3>
                                         <BasicCurrentWeatherInformation/>
                                     </Col>

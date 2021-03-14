@@ -9,7 +9,7 @@ function App() {
       <Row
         style={{ alignItems: 'center' }}
         justify='center'>
-        <Col span={12}>
+        <Col xs={23} sm={23} md={23} lg={18} xl={18} xxl={12}>
             <WeatherHomePage/>
         </Col>
       </Row>
