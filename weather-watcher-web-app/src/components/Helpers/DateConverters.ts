@@ -5,7 +5,7 @@ let getDateStringFromDate = (date?: Date) =>
     if(date)
     {
         var newDate = new Date(date);
-        return `${getStringWithZeros(newDate.getDay())}.${getStringWithZeros(newDate.getMonth())}.${getStringWithZeros(newDate.getFullYear())}`
+        return `${getStringWithZeros(newDate.getDate())}.${getStringWithZeros(newDate.getMonth())}.${getStringWithZeros(newDate.getFullYear())}`
     }
     else
         return ''
