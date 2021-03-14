@@ -3,7 +3,7 @@ import React from "react"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAlertList, selectAlertList } from "./alertListSlice";
-import { getDateStringFromDate, unixTimeStampToDateString } from "./Helpers/DateConverters";
+import { getDateStringWithTimeFromDate, unixTimeStampToDateString } from "./Helpers/DateConverters";
 import { selectSelectedCity } from "./selectedCitySlice";
 import { WaitingForData } from "./WaitingForData";
 
@@ -19,7 +19,7 @@ const columns = [
         key: 'startTime',
         render: (key?: number) => (
             <>
-                {getDateStringFromDate(unixTimeStampToDateString(key))}
+                {getDateStringWithTimeFromDate(unixTimeStampToDateString(key))}
             </>
         )
       },
@@ -29,7 +29,7 @@ const columns = [
         key: 'endTime',
         render: (key?: number) => (
             <>
-                {getDateStringFromDate(unixTimeStampToDateString(key))}
+                {getDateStringWithTimeFromDate(unixTimeStampToDateString(key))}
             </>
         )
       },
