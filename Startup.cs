@@ -42,7 +42,6 @@ namespace WeatherWatcher
                 });
             });
 
-
             services.AddHttpClient<IWeatherApiService, WeatherApiService>(options =>
             {
                 options.BaseAddress = Configuration.GetValue<Uri>("OpenWeatherApiAddress");

@@ -17,11 +17,9 @@ namespace API.Models
         [JsonProperty("country")]
         public string Country { get; set; }
 
-        //NeedConvert to DateTime
         [JsonProperty("sunrise")]
         public string Sunrise { get; set; }
 
-        //NeedConvert to DateTime
         [JsonProperty("sunset")]
         public string Sunset { get; set; }
     }

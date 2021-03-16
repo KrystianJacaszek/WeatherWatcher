@@ -13,8 +13,6 @@ namespace API.Controllers
         private readonly IWeatherApiService _weatherApiService;
         private readonly ICacheService _cacheService;
         private readonly IListGeneratorFromJsonFiles _listGeneratoFromJsonFiles;
-        //remove after development
-        private readonly int _tempCityId = 2643743;
 
         public WeatherWatcherController(IWeatherApiService weatherApiService, ICacheService cacheService, IListGeneratorFromJsonFiles listGeneratoFromJsonFiles)
         {

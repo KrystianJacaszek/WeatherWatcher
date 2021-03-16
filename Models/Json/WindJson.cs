@@ -7,7 +7,6 @@ namespace API.Models
         [JsonProperty("speed")]
         public double Speed { get; set; }
 
-        //Wind direction
         [JsonProperty("deg")]
         public int Degree { get; set; }
     }
