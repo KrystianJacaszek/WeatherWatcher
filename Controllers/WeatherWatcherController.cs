@@ -21,37 +21,37 @@ namespace API.Controllers
             _listGeneratoFromJsonFiles = listGeneratoFromJsonFiles;
         }
 
-        [HttpGet("currentweather")]
+        [HttpGet("currentweather/{id}")]
         public async Task<CurrentWeather> GetCurrentWeatherAsync(int id)
         {
             return await _cacheService.GetCachedCurrentWeatherAsync(id);
         }
 
-        [HttpGet("complexcurrentweather")]
+        [HttpGet("complexcurrentweather/{id}")]
         public async Task<ComplexCurrentWeather> GetComplexCurrentWeatherAsync(int id)
         {
             return await _cacheService.GetCachedComplexCurrentWeatherAsync(id);
         }
 
-        [HttpGet("forecast")]
+        [HttpGet("forecast/{id}")]
         public async Task<IList<ComplexCurrentWeather>> GetWeatherForecast(int id)
         {
             return await _cacheService.GetCachedForecastAsync(id);
         }
 
-        [HttpGet("airpollution")]
+        [HttpGet("airpollution/{id}")]
         public async Task<IList<AirPollutionComponents>> GetAirPolluition(int id)
         {
             return await _cacheService.GetCachedAirPollutionWeatherAsync(id);
         }
 
-        [HttpGet("alerts")]
+        [HttpGet("alerts/{id}")]
         public async Task<IList<AlertDetails>> GetWeatherAlertst(int id)
         {
             return await _cacheService.GetCachedAlertsAsync(id);
         }
 
-        [HttpGet("cities")]
+        [HttpGet("cities/{IsoName}")]
         public List<CityWithId> GetCitiesList(string IsoName)
         {
             return _listGeneratoFromJsonFiles.IsoNamesToListOfCitiesWithId[IsoName];

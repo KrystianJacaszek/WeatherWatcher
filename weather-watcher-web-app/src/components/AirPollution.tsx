@@ -137,7 +137,7 @@ export const AirPollution: React.FC = () => {
                     </Row>
                 </Card>
             ) : (
-                <WaitingForData/>
+                <WaitingForData message="Trwa ładowanie danych statystycznych"/>
             )}
 
         </>

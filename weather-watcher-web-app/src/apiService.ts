@@ -12,22 +12,22 @@ const apiClient = axios.create({
           return apiClient.get('/countries')
       },
       getCityList: async(isoName: string) => {
-          return apiClient.get(`/cities?IsoName=${isoName}`);
+          return apiClient.get(`/cities/${isoName}`);
       },
       getCurrentWeather: async(cityId: number) => {
-          return apiClient.get(`/currentweather?id=${cityId}`);
+          return apiClient.get(`/currentweather/${cityId}`);
       },
       getAirPollution: async(cityId: number) => {
-          return apiClient.get(`airpollution?id=${cityId}`);
+          return apiClient.get(`airpollution/${cityId}`);
       },
       getComplexCurrentWeather: async(cityId: number) => {
-          return apiClient.get(`complexcurrentweather?id=${cityId}`);
+          return apiClient.get(`complexcurrentweather/${cityId}`);
       },
       getForecast: async(cityId: number) => {
-        return apiClient.get(`/forecast?id=${cityId}`);
+        return apiClient.get(`/forecast/${cityId}`);
       },
       getAlerts: async(cityId: number) => {
-        return apiClient.get(`/alerts?id=${cityId}`);
+        return apiClient.get(`/alerts/${cityId}`);
     }
   }
 

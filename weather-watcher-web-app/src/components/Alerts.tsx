@@ -75,7 +75,7 @@ export const Alerts: React.FC = () => {
                     )}
                 </>
             ) : (
-                <WaitingForData message="Trwa wczytywanie aktualnych danych pogodowych"/>
+                <WaitingForData message="Trwa wczytywanie ostrzeżeń pogodowych"/>
             )}
         </>
     )

@@ -79,7 +79,9 @@ namespace WeatherWatcher
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=WeatherWatcher}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
