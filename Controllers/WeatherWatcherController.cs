@@ -10,13 +10,11 @@ namespace API.Controllers
     [Route("[controller]")]
     public class WeatherWatcherController : Controller
     {
-        private readonly IWeatherApiService _weatherApiService;
         private readonly ICacheService _cacheService;
         private readonly IListGeneratorFromJsonFiles _listGeneratoFromJsonFiles;
 
-        public WeatherWatcherController(IWeatherApiService weatherApiService, ICacheService cacheService, IListGeneratorFromJsonFiles listGeneratoFromJsonFiles)
+        public WeatherWatcherController(ICacheService cacheService, IListGeneratorFromJsonFiles listGeneratoFromJsonFiles)
         {
-            _weatherApiService = weatherApiService;
             _cacheService = cacheService;
             _listGeneratoFromJsonFiles = listGeneratoFromJsonFiles;
         }
