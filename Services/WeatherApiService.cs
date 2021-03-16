@@ -1,5 +1,6 @@
 ﻿using API.Interfaces;
 using API.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace WeatherWatcher.Services
     {
         private readonly HttpClient _httpClient;
         private readonly IListGeneratorFromJsonFiles _listGeneratoFromJsonFiles;
-        private string _apiKey = "068967c4584118a3a5856e3156211eec";
+        private string _apiKey;
         private int _daysBackward = -2;
 
         public string GenerateAirPollutionRequestLink(CoordinatesJson coordinates, DateTime startDate, DateTime endDate)
@@ -27,19 +28,19 @@ namespace WeatherWatcher.Services
 
         public string GenerateAlertsRequestLink(CoordinatesJson coordinates)
         {
-            //return $"onecall?lat={coordinates.Latitude}&lon={coordinates.Longitude}&exclude=current,minutely,hourly,daily&units=metric&appid={_apiKey}";
-            return $"onecall?lat=33.441792&lon=-94.037689&exclude=current,minutely,hourly,daily&units=metric&appid={_apiKey}";
+            return $"onecall?lat={coordinates.Latitude}&lon={coordinates.Longitude}&exclude=current,minutely,hourly,daily&units=metric&appid={_apiKey}";
         }
 
         public string GenerateCurrentWeatherLink(int cityId)
         {
             return $"weather?id={cityId}&units=metric&appid={_apiKey}";
         }
-        public WeatherApiService(HttpClient httpClient, IListGeneratorFromJsonFiles listGeneratoFromJsonFiles)
+        public WeatherApiService(HttpClient httpClient, IListGeneratorFromJsonFiles listGeneratoFromJsonFiles, IConfiguration config)
         {
             _httpClient = httpClient;
             _listGeneratoFromJsonFiles = listGeneratoFromJsonFiles;
-    }
+            _apiKey = config.GetValue<string>("ApiKey");
+        }
 
         public long DateTimeToUnixTimeStampConverter(DateTime dateTime) => ((DateTimeOffset)dateTime).ToUnixTimeSeconds();
 
