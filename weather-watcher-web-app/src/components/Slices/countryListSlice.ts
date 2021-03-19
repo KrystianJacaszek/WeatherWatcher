@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { apiService } from '../apiService';
-import { AppThunk, RootState } from '../app/store';
+import { apiService } from '../../apiService';
+import { AppThunk, RootState } from '../../app/store';
 
 interface CountryListState {
   value: {[key: string]: string};

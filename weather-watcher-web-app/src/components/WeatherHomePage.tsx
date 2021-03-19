@@ -8,14 +8,15 @@ import { AirPollution } from './AirPollution';
 import { ComplexCurrentWeather } from './ComplexCurrentWeather';
 import { Forecast } from './Forecast';
 import { Alerts } from './Alerts';
-import { fetchCountryList, selectCountryList } from './countryListSlice';
-import { fetchCityList, selectCityList } from './cityListSlice';
-import { fetchForecastList } from './forecastListSlice';
-import { selectSelectedCountry, setSelectedCountry } from './selectedCountrySlice'
-import { selectSelectedCity, setSelectedCity } from './selectedCitySlice'
-import { fetchComplexCurrentWeather } from './complexCurrentWeatherSlice';
-import { fetchAirPollutionList } from './airPollutionListSlice';
-import { fetchCurrentWeather } from "./currentWeatherSlice";
+import { fetchCountryList, selectCountryList } from './Slices/countryListSlice';
+import { fetchCityList, selectCityList } from './Slices/cityListSlice';
+import { fetchForecastList } from './Slices/forecastListSlice';
+import { selectSelectedCountry, setSelectedCountry } from './Slices/selectedCountrySlice'
+import { selectSelectedCity, setSelectedCity } from './Slices/selectedCitySlice'
+import { fetchComplexCurrentWeather } from './Slices/complexCurrentWeatherSlice';
+import { fetchAirPollutionList } from './Slices/airPollutionListSlice';
+import { fetchCurrentWeather } from "./Slices/currentWeatherSlice";
+import { ICityWithId } from './Interfaces/ICityWithId';
 
 
 const { Option } = Select;
@@ -368,7 +369,7 @@ export const WeatherHomePage: React.FC = () => {
                                                 optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                                                 }
                                                 >
-                                            {cityList?.map((city) => {
+                                            {cityList?.map((city: ICityWithId) => {
                                                 return <Option value={city.id}>{city.cityName}</Option>
                                             } )}
                                         </Select>

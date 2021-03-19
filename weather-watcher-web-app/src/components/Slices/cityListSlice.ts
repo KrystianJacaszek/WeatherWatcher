@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { apiService } from '../apiService';
-import { AppThunk, RootState } from '../app/store';
-import { ICityWithId } from './Interfaces/ICityWithId';
+import { apiService } from '../../apiService';
+import { AppThunk, RootState } from '../../app/store';
+import { ICityWithId } from '../Interfaces/ICityWithId';
 
 interface CityListState {
   value: ICityWithId[];

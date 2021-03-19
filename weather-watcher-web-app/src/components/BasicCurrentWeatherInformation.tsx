@@ -4,8 +4,8 @@ import { StatisticsWithCelsciusDegree } from "./Helpers/StatisticsWithCelsciusDe
 import { ImageFromIconName } from "./Helpers/ImageFromIconName";
 import { WaitingForData } from "./WaitingForData";
 import { useSelector, useDispatch } from "react-redux";
-import { selectSelectedCity } from "./selectedCitySlice";
-import { fetchCurrentWeather, selectCurrentWeather } from "./currentWeatherSlice";
+import { selectSelectedCity } from "./Slices/selectedCitySlice";
+import { fetchCurrentWeather, selectCurrentWeather } from "./Slices/currentWeatherSlice";
 
 export const BasicCurrentWeatherInformation: React.FC = () => {
     const cityId = useSelector(selectSelectedCity);

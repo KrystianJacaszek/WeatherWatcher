@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-const BACKEND_URL = "http://localhost:63559"
-
 const apiClient = axios.create({
-    baseURL: `${BACKEND_URL}/weatherwatcher`,
+    baseURL: `/weatherwatcher`,
     timeout: 10000,
   });
 

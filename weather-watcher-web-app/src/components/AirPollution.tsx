@@ -3,9 +3,9 @@ import React, { useEffect } from "react"
 import { StatisticsForAirPollution } from "./Helpers/StatisticsForAirPollution";
 import { WaitingForData } from "./WaitingForData";
 import { getDateStringWithTimeFromDate } from "./Helpers/DateConverters";
-import { selectSelectedCity } from './selectedCitySlice';
+import { selectSelectedCity } from './Slices/selectedCitySlice';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAirPollutionList, selectAirPollutionList} from './airPollutionListSlice';
+import { fetchAirPollutionList, selectAirPollutionList} from './Slices/airPollutionListSlice';
 
 const AirQualityIndexToName : {[key: number]: string} = {
     1:"Bardzo dobra",

@@ -2,9 +2,9 @@ import { Card, Col, Row, Table } from "antd";
 import React from "react"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAlertList, selectAlertList } from "./alertListSlice";
+import { fetchAlertList, selectAlertList } from "./Slices/alertListSlice";
 import { getDateStringWithTimeFromDate, unixTimeStampToDateString } from "./Helpers/DateConverters";
-import { selectSelectedCity } from "./selectedCitySlice";
+import { selectSelectedCity } from "./Slices/selectedCitySlice";
 import { WaitingForData } from "./WaitingForData";
 
 const columns = [

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { apiService } from '../apiService';
-import { AppThunk, RootState } from '../app/store';
-import { IAlertDetails } from './Interfaces/IAlertsDetails';
+import { apiService } from '../../apiService';
+import { AppThunk, RootState } from '../../app/store';
+import { IAlertDetails } from '../Interfaces/IAlertsDetails';
 
 interface AlertListState {
   value?: IAlertDetails[];

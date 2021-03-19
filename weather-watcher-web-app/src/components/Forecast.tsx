@@ -4,9 +4,10 @@ import { ComplexCurrentWeatherPartial } from "./ComplexCurrentWeatherPartial";
 import { getDateStringFromDate, unixTimeStampToDateString } from "./Helpers/DateConverters";
 import { ITemps } from "./Interfaces/ITemps";
 import { WaitingForData } from "./WaitingForData";
-import { selectSelectedCity } from './selectedCitySlice'
-import { fetchForecastList, selectForecastList } from './forecastListSlice';
+import { selectSelectedCity } from './Slices/selectedCitySlice'
+import { fetchForecastList, selectForecastList } from './Slices/forecastListSlice';
 import { useDispatch, useSelector } from "react-redux";
+import { IComplexCurrentWeather } from "./Interfaces/IComplexCurrentWeather";
 
 const columns = [
     {
@@ -87,7 +88,7 @@ export const Forecast: React.FC = () => {
                         <Col style={{marginTop: 10, marginBottom:10 }}
                         >
                             <Radio.Group value={currentIndex} onChange={handleChangeCurrentForecast}>
-                                {forecast.map((f, index) => {
+                                {forecast.map((f: IComplexCurrentWeather, index) => {
                                     return <Radio.Button value={index}>{getDateStringFromDate(unixTimeStampToDateString(f.unixDateTime))}</Radio.Button>
                                 })}
                             </Radio.Group>

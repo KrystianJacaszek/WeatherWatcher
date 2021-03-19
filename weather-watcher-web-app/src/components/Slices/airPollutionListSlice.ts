@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { apiService } from '../apiService';
-import { AppThunk, RootState } from '../app/store';
-import { IAirPollution } from './Interfaces/IAirPollution';
+import { apiService } from '../../apiService';
+import { AppThunk, RootState } from '../../app/store';
+import { IAirPollution } from '../Interfaces/IAirPollution';
 
 interface AirPollutionListState {
   value?: IAirPollution[];

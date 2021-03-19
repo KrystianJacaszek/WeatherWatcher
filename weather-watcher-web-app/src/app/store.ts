@@ -1,13 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import selectedCountryReducer from '../components/selectedCountrySlice';
-import selectedCityReducer from '../components/selectedCitySlice';
-import countryListReducer from '../components/countryListSlice';
-import cityListReducer from '../components/cityListSlice';
-import forecastListReducer from '../components/forecastListSlice';
-import complexCurrentWeatherReducer from '../components/complexCurrentWeatherSlice';
-import airPollutionListReducer from '../components/airPollutionListSlice';
-import alertListReducer from '../components/alertListSlice';
-import currentWeatherReducer from '../components/currentWeatherSlice';
+import selectedCountryReducer from '../components/Slices/selectedCountrySlice';
+import selectedCityReducer from '../components/Slices/selectedCitySlice';
+import countryListReducer from '../components/Slices/countryListSlice';
+import cityListReducer from '../components/Slices/cityListSlice';
+import forecastListReducer from '../components/Slices/forecastListSlice';
+import complexCurrentWeatherReducer from '../components/Slices/complexCurrentWeatherSlice';
+import airPollutionListReducer from '../components/Slices/airPollutionListSlice';
+import alertListReducer from '../components/Slices/alertListSlice';
+import currentWeatherReducer from '../components/Slices/currentWeatherSlice';
 
 export const store = configureStore({
   reducer: {

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { apiService } from '../apiService';
-import { AppThunk, RootState } from '../app/store';
-import { ICurrentWeather } from './Interfaces/ICurrentWeather';
+import { apiService } from '../../apiService';
+import { AppThunk, RootState } from '../../app/store';
+import { ICurrentWeather } from '../Interfaces/ICurrentWeather';
 
 interface CurrentWeatherState {
   value?: ICurrentWeather;

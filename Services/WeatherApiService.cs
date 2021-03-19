@@ -53,7 +53,6 @@ namespace WeatherWatcher.Services
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
-
             var deserializedResponse = JsonConvert.DeserializeObject<CurrentWeatherJson>(responseBody);
 
             return deserializedResponse;
@@ -64,12 +63,11 @@ namespace WeatherWatcher.Services
             var coordinates = _listGeneratoFromJsonFiles.GetCoordinatesFromCityId(cityId);
             var startDate = DateTime.Now.AddDays(_daysBackward);
             var endDate = DateTime.Now;
-            var x = GenerateAirPollutionRequestLink(coordinates, startDate, endDate);
-            var response = await _httpClient.GetAsync(x);
+            var link = GenerateAirPollutionRequestLink(coordinates, startDate, endDate);
+            var response = await _httpClient.GetAsync(link);
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
-
             var deserializedResponse = JsonConvert.DeserializeObject<AirPollutionJson>(responseBody);
 
             return deserializedResponse;
@@ -90,9 +88,9 @@ namespace WeatherWatcher.Services
 
         public async Task<DailyForecastJson> GetDailyForecastSingleAsync(int cityId)
         {
-            var x = await GetDailyForecastAsync(cityId);
+            var dailyForecast = await GetDailyForecastAsync(cityId);
             
-            return x.DailyForecast.First();
+            return dailyForecast.DailyForecast.First();
         }
 
         public async Task<WeatherAlertsJson> GetWeatherAlertsAsync(int cityId)
@@ -102,7 +100,6 @@ namespace WeatherWatcher.Services
             response.EnsureSuccessStatusCode();
 
             var responseBody = response.Content.ReadAsStringAsync().Result;
-
             var deserializedResponse = JsonConvert.DeserializeObject<WeatherAlertsJson>(responseBody);
 
             return deserializedResponse;
