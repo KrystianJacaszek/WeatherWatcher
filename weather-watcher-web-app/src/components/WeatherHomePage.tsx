@@ -17,6 +17,7 @@ import { fetchComplexCurrentWeather } from './Slices/complexCurrentWeatherSlice'
 import { fetchAirPollutionList } from './Slices/airPollutionListSlice';
 import { fetchCurrentWeather } from "./Slices/currentWeatherSlice";
 import { ICityWithId } from './Interfaces/ICityWithId';
+import { fetchAlertList } from './Slices/alertListSlice';
 
 
 const { Option } = Select;
@@ -260,6 +261,7 @@ export const WeatherHomePage: React.FC = () => {
             dispatch(fetchForecastList(key));
             dispatch(fetchComplexCurrentWeather(key));
             dispatch(fetchAirPollutionList(key));
+            dispatch(fetchAlertList(key));
         }
         else
         {
