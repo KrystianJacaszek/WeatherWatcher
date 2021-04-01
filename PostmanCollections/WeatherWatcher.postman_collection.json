@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "9c773152-c31c-473f-adfc-b1e8de52bc40",
+		"name": "WeatherWatcher",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AriPollution",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ApiAddress}}/weatherwatcher/airpollution?id={{CityId}}",
+					"host": [
+						"{{ApiAddress}}"
+					],
+					"path": [
+						"weatherwatcher",
+						"airpollution"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{CityId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forecast",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ApiAddress}}/weatherwatcher/forecast/{{CityId}}",
+					"host": [
+						"{{ApiAddress}}"
+					],
+					"path": [
+						"weatherwatcher",
+						"forecast",
+						"{{CityId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCountries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ApiAddress}}/weatherwatcher/countries",
+					"host": [
+						"{{ApiAddress}}"
+					],
+					"path": [
+						"weatherwatcher",
+						"countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ApiAddress}}/weatherwatcher/cities/{{IsoName}}",
+					"host": [
+						"{{ApiAddress}}"
+					],
+					"path": [
+						"weatherwatcher",
+						"cities",
+						"{{IsoName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alerts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ApiAddress}}/weatherwatcher/alerts/{{CityId}}",
+					"host": [
+						"{{ApiAddress}}"
+					],
+					"path": [
+						"weatherwatcher",
+						"alerts",
+						"{{CityId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CurrentWeather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ApiAddress}}/weatherwatcher/currentweather/{{CityId}}",
+					"host": [
+						"{{ApiAddress}}"
+					],
+					"path": [
+						"weatherwatcher",
+						"currentweather",
+						"{{CityId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ComplexCurrentWeather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ApiAddress}}/weatherwatcher/complexcurrentweather?id={{CityId}}",
+					"host": [
+						"{{ApiAddress}}"
+					],
+					"path": [
+						"weatherwatcher",
+						"complexcurrentweather"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{CityId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
