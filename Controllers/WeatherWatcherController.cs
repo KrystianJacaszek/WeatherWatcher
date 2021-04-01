@@ -20,45 +20,94 @@ namespace API.Controllers
         }
 
         [HttpGet("currentweather/{id}")]
-        public async Task<CurrentWeather> GetCurrentWeatherAsync(int id)
+        public async Task<ActionResult<CurrentWeather>> GetCurrentWeatherAsync(int id)
         {
-            return await _cacheService.GetCachedCurrentWeatherAsync(id);
+            try
+            {
+                return Ok(await _cacheService.GetCachedCurrentWeatherAsync(id));
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("complexcurrentweather/{id}")]
-        public async Task<ComplexCurrentWeather> GetComplexCurrentWeatherAsync(int id)
+        public async Task<ActionResult<ComplexCurrentWeather>> GetComplexCurrentWeatherAsync(int id)
         {
-            return await _cacheService.GetCachedComplexCurrentWeatherAsync(id);
+            try
+            {
+                return Ok(await _cacheService.GetCachedComplexCurrentWeatherAsync(id));
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("forecast/{id}")]
-        public async Task<IList<ComplexCurrentWeather>> GetWeatherForecast(int id)
+        public async Task<ActionResult<IList<ComplexCurrentWeather>>> GetWeatherForecast(int id)
         {
-            return await _cacheService.GetCachedForecastAsync(id);
+            try
+            {
+                return Ok(await _cacheService.GetCachedForecastAsync(id));
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("airpollution/{id}")]
-        public async Task<IList<AirPollutionComponents>> GetAirPolluition(int id)
+        public async Task<ActionResult<IList<AirPollutionComponents>>> GetAirPolluition(int id)
         {
-            return await _cacheService.GetCachedAirPollutionWeatherAsync(id);
+            try
+            {
+                return Ok(await _cacheService.GetCachedAirPollutionWeatherAsync(id));
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("alerts/{id}")]
-        public async Task<IList<AlertDetails>> GetWeatherAlertst(int id)
+        public async Task<ActionResult<IList<AlertDetails>>> GetWeatherAlertst(int id)
         {
-            return await _cacheService.GetCachedAlertsAsync(id);
+            try
+            {
+                return Ok(await _cacheService.GetCachedAlertsAsync(id));
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("cities/{IsoName}")]
-        public List<CityWithId> GetCitiesList(string IsoName)
+        public ActionResult<List<CityWithId>> GetCitiesList(string IsoName)
         {
-            return _listGeneratoFromJsonFiles.IsoNamesToListOfCitiesWithId[IsoName];
+            try
+            {
+                return Ok(_listGeneratoFromJsonFiles.IsoNamesToListOfCitiesWithId[IsoName]);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("countries")]
-        public Dictionary<string, string> GetCountriesList()
+        public ActionResult<Dictionary<string, string>> GetCountriesList()
         {
-            return _listGeneratoFromJsonFiles.IsoNamesToCountries;
+            try
+            {
+                return Ok(_listGeneratoFromJsonFiles.IsoNamesToCountries);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
     }
 }
